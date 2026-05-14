@@ -52,7 +52,7 @@ jobs:
 
     steps:
       - name: Checkout cicd-actions repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.2.2
         with:
           repository: ${{ inputs.git-cicd-orgrepo }}
           ref: ${{ inputs.workflow-ref }}

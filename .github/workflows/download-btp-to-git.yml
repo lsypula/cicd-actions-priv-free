@@ -109,7 +109,7 @@ jobs:
 
     steps:
       - name: Checkout cicd-actions-intsuite repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.2.2
         with:
           repository: ${{ inputs.git-cicd-orgrepo }}
           path: cicd-btp-insuite
@@ -117,7 +117,7 @@ jobs:
           ref: ${{ inputs.workflow-ref }}
 
       - name: Checkout repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.2.2
         with:
           ref: ${{ inputs.target-ref }}
           path: btp-insuite

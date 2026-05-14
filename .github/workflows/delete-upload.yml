@@ -96,7 +96,7 @@ jobs:
 
     steps:
       - name: Checkout cicd-actions-intsuite repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.2.2
         with:
           repository: ${{ inputs.git-cicd-orgrepo }}
           ref: ${{ inputs.workflow-ref }}
@@ -133,7 +133,7 @@ jobs:
     steps:
       - name: Checkout cicd-actions-intsuite repo
         if: ${{ matrix.id != 'EmptyMatrix' }}
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.2.2
         with:
           repository: ${{ inputs.git-cicd-orgrepo }}
           ref: ${{ inputs.workflow-ref }}
@@ -141,7 +141,7 @@ jobs:
           token: ${{ secrets.GIT_CICD_TOKEN }}
 
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.2.2
         with:
           ref: ${{ inputs.source-ref }}
           path: btp-insuite
@@ -168,7 +168,7 @@ jobs:
     steps:
       - name: Checkout cicd-actions-intsuite repo
         if: ${{ matrix.id != 'EmptyMatrix' }}
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.2.2
         with:
           repository: ${{ inputs.git-cicd-orgrepo }}
           ref: ${{ inputs.workflow-ref }}
@@ -205,7 +205,7 @@ jobs:
     steps:
       - name: Checkout cicd-actions-intsuite repo
         if: ${{ matrix.id != 'EmptyMatrix' }}
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.2.2
         with:
           repository: ${{ inputs.git-cicd-orgrepo }}
           ref: ${{ inputs.workflow-ref }}
@@ -246,7 +246,7 @@ jobs:
     steps:
       - name: Checkout cicd-actions-intsuite repo
         if: ${{ matrix.id != 'EmptyMatrix' }}
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.2.2
         with:
           repository: ${{ inputs.git-cicd-orgrepo }}
           ref: ${{ inputs.workflow-ref }}
@@ -283,7 +283,7 @@ jobs:
     steps:
       - name: Checkout cicd-actions-intsuite repo
         if: ${{ matrix.id != 'EmptyMatrix' }}
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.2.2
         with:
           repository: ${{ inputs.git-cicd-orgrepo }}
           ref: ${{ inputs.workflow-ref }}
@@ -320,7 +320,7 @@ jobs:
     steps:
       - name: Checkout cicd-actions-intsuite repo
         if: ${{ matrix.id != 'EmptyMatrix' }}
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.2.2
         with:
           repository: ${{ inputs.git-cicd-orgrepo }}
           ref: ${{ inputs.workflow-ref }}
@@ -356,7 +356,7 @@ jobs:
     steps:
       - name: Checkout cicd-actions-intsuite repo
         if: ${{ matrix.id != 'EmptyMatrix' }}
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.2.2
         with:
           repository: ${{ inputs.git-cicd-orgrepo }}
           ref: ${{ inputs.workflow-ref }}
