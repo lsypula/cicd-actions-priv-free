@@ -126,9 +126,3 @@ runs:
         name: ${{ steps.prepare-zip.outputs.package_dir_name }}
         path: ${{ steps.prepare-zip.outputs.location }}
 
-    - name: Upload ZIP artifact (v3 - GitHub Enterprise Server)
-      if: ${{ inputs.attach-zip == 'true' && !contains(github.server_url, 'github.com') && !contains(github.server_url, 'ghe.com') }}
-      uses: actions/upload-artifact@v3
-      with:
-        name: ${{ steps.prepare-zip.outputs.package_dir_name }}
-        path: ${{ steps.prepare-zip.outputs.location }}
