@@ -49,6 +49,11 @@ on:
         required: false
         default: ""
         type: string
+      deploy-to-runtime:
+        description: "Deploy uploaded packages to runtime after designtime upload?"
+        required: false
+        default: "true"
+        type: string
       btp-api-user:
         description: "BTP Service Key (ClientID) to access Token Endpoint"
         required: true
@@ -337,7 +342,7 @@ jobs:
           BTP_TEC_PASSWORD: ${{ secrets.BTP_TEC_PASSWORD }}
 
   btp-update-runtime:
-    if: ${{ inputs.attach-zip-only != 'true' }}
+    if: ${{ inputs.attach-zip-only != 'true' && inputs.deploy-to-runtime != 'false' }}
     name: Deploy Package ${{ matrix.id }}
     environment: ${{ inputs.target-env }}
     needs: [preprocess-ids, btp-pd-upload]
