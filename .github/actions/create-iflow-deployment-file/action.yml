@@ -1,5 +1,5 @@
-# Copyright (c) 2025 Mercedes-Benz AG
-# Frank Sprünken <accenture.spruenken@extaccount.com>
+﻿# Copyright (c) 2025 Mercedes-Benz AG
+# Frank SprÃ¼nken <accenture.spruenken@extaccount.com>
 #
 # Version History:
 # 1.0.0 - 2025-11-24 - Initial release (F. Spruenken)
@@ -64,12 +64,12 @@ runs:
         EXISTING_DEPLOYMENTS="{}"
         EXISTING_COUNT=0
         if [ -f "$DEPLOYMENT_FILE" ]; then
-          echo "✓ Found existing deployment file: $DEPLOYMENT_FILE"
+          echo "âœ“ Found existing deployment file: $DEPLOYMENT_FILE"
           EXISTING_DEPLOYMENTS=$(<"$DEPLOYMENT_FILE")
           EXISTING_COUNT=$(echo "$EXISTING_DEPLOYMENTS" | jq -r '.PackageIntegrationFlowDeployments.IntegrationFlows | length // 0')
-          echo "  → Loaded $EXISTING_COUNT existing deployment entries"
+          echo "  â†’ Loaded $EXISTING_COUNT existing deployment entries"
         else
-          echo "ℹ No existing deployment file found - creating new one"
+          echo "â„¹ No existing deployment file found - creating new one"
         fi
         
         # Initialize array for integration flows
@@ -97,7 +97,7 @@ runs:
           # If existing entry found, preserve it completely (including all stage flags)
           if [ "$EXISTING_ENTRY" != "null" ] && [ "$EXISTING_ENTRY" != "" ] && [ "$EXISTING_ENTRY" != "false" ]; then
             PRESERVED_COUNT=$((PRESERVED_COUNT + 1))
-            echo "  → Preserved existing entry with all settings"
+            echo "  â†’ Preserved existing entry with all settings"
             
             # Update the name in case it changed, keep all other fields, 
             # and ensure Deploy, Rank, LogLevel, Runtimes fields exist (create with defaults if missing)
@@ -111,7 +111,7 @@ runs:
           else
             # New entry - create with defaults (no stage flags initially)
             NEW_COUNT=$((NEW_COUNT + 1))
-            echo "  → New entry: Deploy = false, Rank = 100, LogLevel = INFO, Runtimes = iflmap (defaults)"
+            echo "  â†’ New entry: Deploy = false, Rank = 100, LogLevel = INFO, Runtimes = iflmap (defaults)"
             
             IFLOW_ENTRY=$(jq -n --arg id "$ID" --arg name "$NAME" '
               {
@@ -152,8 +152,8 @@ runs:
         
         echo ""
         echo "==== Deployment File Complete ===="
-        echo "✓ Deployment file saved: $DEPLOYMENT_FILE"
-        echo "✓ Total integration flows in deployment file: $(echo "$integration_flows" | jq 'length')"
+        echo "âœ“ Deployment file saved: $DEPLOYMENT_FILE"
+        echo "âœ“ Total integration flows in deployment file: $(echo "$integration_flows" | jq 'length')"
         
         # Set output parameter with the full path to the JSON file
         echo "path=$DEPLOYMENT_FILE" >> $GITHUB_OUTPUT

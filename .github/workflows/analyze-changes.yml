@@ -1,4 +1,4 @@
-# Copyright (c) 2025 Mercedes-Benz AG
+﻿# Copyright (c) 2025 Mercedes-Benz AG
 # Oliver Weng <sap.weng@extaccount.com>
 #
 # Version History:
@@ -87,7 +87,7 @@ jobs:
 
     steps:
       - name: Checkout cicd-actions-intsuite repo
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v4
         with:
           repository: ${{ inputs.git-cicd-orgrepo }}
           ref: ${{ inputs.workflow-ref }}
@@ -179,14 +179,14 @@ jobs:
 
       - name: Detect GitHub Server Type
         run: |
-          echo "🔍 Detecting GitHub server type..."
+          echo "ðŸ” Detecting GitHub server type..."
           echo "   Server URL: ${{ github.server_url }}"
           if [[ "${{ github.server_url }}" == *"github.com"* ]] || [[ "${{ github.server_url }}" == *"ghe.com"* ]]; then
-            echo "✅ Detected: GitHub Cloud (github.com or ghe.com)"
-            echo "   → Using upload-artifact@v4"
+            echo "âœ… Detected: GitHub Cloud (github.com or ghe.com)"
+            echo "   â†’ Using upload-artifact@v4"
           else
-            echo "✅ Detected: GitHub Enterprise Server"
-            echo "   → Using upload-artifact@v3"
+            echo "âœ… Detected: GitHub Enterprise Server"
+            echo "   â†’ Using upload-artifact@v3"
           fi
 
       - name: Upload built artifacts (v4 - GitHub Cloud)

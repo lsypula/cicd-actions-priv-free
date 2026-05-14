@@ -1,4 +1,4 @@
-# Copyright (c) 2026 SAP SE or an SAP affiliate
+﻿# Copyright (c) 2026 SAP SE or an SAP affiliate
 # Licensed under the Apache License, Version 2.0
 #
 # Version History:
@@ -43,13 +43,13 @@ runs:
         GITHUB_URL="${{ github.server_url }}"
         GH_HOSTNAME=$(echo "$GITHUB_URL" | sed -e 's|^https://||' -e 's|^http://||' -e 's|/$||')
 
-        echo "════════════════════════════════════════════════════════"
-        echo "🌿 RECREATE BRANCH"
-        echo "════════════════════════════════════════════════════════"
-        echo "🌿 Branch: $BRANCH_NAME"
-        echo "📌 Source: $SOURCE_REF"
-        echo "📦 Repository: ${{ github.repository }}"
-        echo "════════════════════════════════════════════════════════"
+        echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
+        echo "ðŸŒ¿ RECREATE BRANCH"
+        echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
+        echo "ðŸŒ¿ Branch: $BRANCH_NAME"
+        echo "ðŸ“Œ Source: $SOURCE_REF"
+        echo "ðŸ“¦ Repository: ${{ github.repository }}"
+        echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
         echo ""
 
         # Check if branch already exists (using branches API for reliable exact-match lookup)
@@ -59,7 +59,7 @@ runs:
 
         if [ $? -eq 0 ]; then
           EXISTING_SHA=$(echo "$branch_ref" | jq -r '.commit.sha')
-          echo "✅ Branch '$BRANCH_NAME' already exists (restart scenario)"
+          echo "âœ… Branch '$BRANCH_NAME' already exists (restart scenario)"
           echo "   SHA: $EXISTING_SHA"
           echo "status=already-exists" >> $GITHUB_OUTPUT
           echo "sha=$EXISTING_SHA" >> $GITHUB_OUTPUT
@@ -67,7 +67,7 @@ runs:
         fi
 
         # Resolve source ref to SHA
-        echo "🔍 Resolving source reference '$SOURCE_REF'..."
+        echo "ðŸ” Resolving source reference '$SOURCE_REF'..."
 
         # Try as branch first (using branches API for reliable exact-match lookup)
         source_response=$(gh api --hostname "$GH_HOSTNAME" \
@@ -93,7 +93,7 @@ runs:
             if [ $? -eq 0 ]; then
               SOURCE_SHA="$SOURCE_REF"
             else
-              echo "❌ Cannot resolve source reference '$SOURCE_REF'"
+              echo "âŒ Cannot resolve source reference '$SOURCE_REF'"
               echo "   It is neither a branch, tag, nor a valid commit SHA."
               echo "status=error" >> $GITHUB_OUTPUT
               exit 1
@@ -105,7 +105,7 @@ runs:
         echo ""
 
         # Create the branch
-        echo "🌿 Creating branch '$BRANCH_NAME' from SHA $SOURCE_SHA..."
+        echo "ðŸŒ¿ Creating branch '$BRANCH_NAME' from SHA $SOURCE_SHA..."
         
         create_response=$(gh api --hostname "$GH_HOSTNAME" \
           -H "Accept: application/vnd.github+json" \
@@ -114,14 +114,14 @@ runs:
           -f sha="$SOURCE_SHA" 2>&1)
 
         if [ $? -ne 0 ]; then
-          echo "❌ Failed to create branch '$BRANCH_NAME'"
+          echo "âŒ Failed to create branch '$BRANCH_NAME'"
           echo "   Response: $create_response"
           echo "status=error" >> $GITHUB_OUTPUT
           exit 1
         fi
 
         echo ""
-        echo "✅ Successfully created branch '$BRANCH_NAME'"
+        echo "âœ… Successfully created branch '$BRANCH_NAME'"
         echo "   SHA: $SOURCE_SHA"
         echo "status=created" >> $GITHUB_OUTPUT
         echo "sha=$SOURCE_SHA" >> $GITHUB_OUTPUT

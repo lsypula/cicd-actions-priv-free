@@ -1,5 +1,5 @@
-# Copyright (c) 2025 Mercedes-Benz AG
-# Frank Sprünken <accenture.spruenken@extaccount.com>
+﻿# Copyright (c) 2025 Mercedes-Benz AG
+# Frank SprÃ¼nken <accenture.spruenken@extaccount.com>
 #
 # Version History:
 # 1.0.0 - 2025-11-24 - Initial release (F. Spruenken)
@@ -42,7 +42,7 @@ runs:
   steps:
 
     - name: Checkout repository
-      uses: actions/checkout@v4.2.2
+      uses: actions/checkout@v4
       with:
         ref: ${{ inputs.source-ref }}
         path: btp-insuite
@@ -65,18 +65,18 @@ runs:
       run: |
         set -euo pipefail  # Exit on error, undefined variables, pipe failures
         
-        echo "🔍 Looking for Partner ID: $PARTNERID"
-        echo "📂 Current directory: $(pwd)"
+        echo "ðŸ” Looking for Partner ID: $PARTNERID"
+        echo "ðŸ“‚ Current directory: $(pwd)"
         
         # Change to the checked out directory
         cd btp-insuite || {
-          echo "❌ Failed to change to btp-insuite directory"
+          echo "âŒ Failed to change to btp-insuite directory"
           exit 1
         }
         
         # Verify Partner Directory exists
         if [[ ! -d "./PartnerDirectory" ]]; then
-          echo "❌ PartnerDirectory folder not found in repository"
+          echo "âŒ PartnerDirectory folder not found in repository"
           exit 1
         fi
         
@@ -84,13 +84,13 @@ runs:
         dir="./PartnerDirectory/$PARTNERID"
         
         if [[ ! -d "$dir" ]]; then
-          echo "❌ Partner ID directory not found: $dir"
+          echo "âŒ Partner ID directory not found: $dir"
           echo "Available directories:"
           ls -la ./PartnerDirectory/ || true
           exit 1
         fi
         
-        echo "✅ Found Partner ID directory: $dir"
+        echo "âœ… Found Partner ID directory: $dir"
         
         # Define file paths
         declare -A json_files=(
@@ -104,23 +104,23 @@ runs:
         for key in "${!json_files[@]}"; do
           file="${json_files[$key]}"
           
-          echo "📄 Processing: $file"
+          echo "ðŸ“„ Processing: $file"
           
           if [[ ! -f "$file" ]]; then
-            echo "❌ Required file missing: $file"
+            echo "âŒ Required file missing: $file"
             exit 1
           fi
           
           # Validate JSON syntax
           if ! jq empty "$file" 2>/dev/null; then
-            echo "❌ Invalid JSON syntax in file: $file"
+            echo "âŒ Invalid JSON syntax in file: $file"
             jq . "$file" 2>&1 || true  # Show the error
             exit 1
           fi
           
           # Validate JSON structure has .d.results path
           if ! jq -e '.d.results' "$file" >/dev/null 2>&1; then
-            echo "❌ Invalid JSON structure in file: $file"
+            echo "âŒ Invalid JSON structure in file: $file"
             echo "   Expected structure: { \"d\": { \"results\": [...] } }"
             exit 1
           fi
@@ -128,10 +128,10 @@ runs:
           # Check if results array is empty
           results_count=$(jq '.d.results | length' "$file")
           if [[ "$results_count" -eq 0 ]]; then
-            echo "⚠️ Warning: No entries found in: $file"
+            echo "âš ï¸ Warning: No entries found in: $file"
           fi
           
-          echo "✅ Valid JSON found: $file (${results_count} entries)"
+          echo "âœ… Valid JSON found: $file (${results_count} entries)"
           
           # Get file size for logging
           file_size=$(stat -f%z "$file" 2>/dev/null || stat -c%s "$file" 2>/dev/null || echo "unknown")
@@ -145,7 +145,7 @@ runs:
           echo "${key}_path=$file" >> $GITHUB_OUTPUT
         done
         
-        echo "✅ All Partner Directory JSON files validated and processed successfully"
+        echo "âœ… All Partner Directory JSON files validated and processed successfully"
 
     # Process Alternative Partners
     - name: Prepare Alternative Partners JSON
@@ -154,28 +154,28 @@ runs:
       run: |
         set -euo pipefail
         
-        echo "📝 Preparing Alternative Partners JSON"
+        echo "ðŸ“ Preparing Alternative Partners JSON"
         
         # Decode and save JSON
         echo "${{ steps.prepare-entry.outputs.alternative_partners_json }}" | base64 -d > /tmp/alternative-partners-raw.json
         
         # Validate JSON structure
         if ! jq -e . /tmp/alternative-partners-raw.json >/dev/null 2>&1; then
-          echo "❌ Failed to decode Alternative Partners JSON"
+          echo "âŒ Failed to decode Alternative Partners JSON"
           exit 1
         fi
         
         # Extract .d.results array
-        echo "🔄 Extracting .d.results array"
+        echo "ðŸ”„ Extracting .d.results array"
         if ! jq -e '.d.results' /tmp/alternative-partners-raw.json >/dev/null 2>&1; then
-          echo "❌ JSON structure missing .d.results path"
+          echo "âŒ JSON structure missing .d.results path"
           echo "Expected structure: { \"d\": { \"results\": [...] } }"
           exit 1
         fi
         
         jq '.d.results' /tmp/alternative-partners-raw.json > /tmp/alternative-partners.json
         
-        echo "✅ Alternative Partners JSON prepared"
+        echo "âœ… Alternative Partners JSON prepared"
         echo "   Entries: $(jq '. | length' /tmp/alternative-partners.json)"
         
         # Output file path
@@ -197,28 +197,28 @@ runs:
       run: |
         set -euo pipefail
         
-        echo "📝 Preparing String Parameters JSON"
+        echo "ðŸ“ Preparing String Parameters JSON"
         
         # Decode and save JSON
         echo "${{ steps.prepare-entry.outputs.string_parameters_json }}" | base64 -d > /tmp/string-parameters-raw.json
         
         # Validate JSON structure
         if ! jq -e . /tmp/string-parameters-raw.json >/dev/null 2>&1; then
-          echo "❌ Failed to decode String Parameters JSON"
+          echo "âŒ Failed to decode String Parameters JSON"
           exit 1
         fi
         
         # Extract .d.results array
-        echo "🔄 Extracting .d.results array"
+        echo "ðŸ”„ Extracting .d.results array"
         if ! jq -e '.d.results' /tmp/string-parameters-raw.json >/dev/null 2>&1; then
-          echo "❌ JSON structure missing .d.results path"
+          echo "âŒ JSON structure missing .d.results path"
           echo "Expected structure: { \"d\": { \"results\": [...] } }"
           exit 1
         fi
         
         jq '.d.results' /tmp/string-parameters-raw.json > /tmp/string-parameters.json
         
-        echo "✅ String Parameters JSON prepared"
+        echo "âœ… String Parameters JSON prepared"
         echo "   Entries: $(jq '. | length' /tmp/string-parameters.json)"
         
         # Output file path
@@ -240,28 +240,28 @@ runs:
       run: |
         set -euo pipefail
         
-        echo "📝 Preparing Authorized Users JSON"
+        echo "ðŸ“ Preparing Authorized Users JSON"
         
         # Decode and save JSON
         echo "${{ steps.prepare-entry.outputs.authorized_users_json }}" | base64 -d > /tmp/authorized-users-raw.json
         
         # Validate JSON structure
         if ! jq -e . /tmp/authorized-users-raw.json >/dev/null 2>&1; then
-          echo "❌ Failed to decode Authorized Users JSON"
+          echo "âŒ Failed to decode Authorized Users JSON"
           exit 1
         fi
         
         # Extract .d.results array
-        echo "🔄 Extracting .d.results array"
+        echo "ðŸ”„ Extracting .d.results array"
         if ! jq -e '.d.results' /tmp/authorized-users-raw.json >/dev/null 2>&1; then
-          echo "❌ JSON structure missing .d.results path"
+          echo "âŒ JSON structure missing .d.results path"
           echo "Expected structure: { \"d\": { \"results\": [...] } }"
           exit 1
         fi
         
         jq '.d.results' /tmp/authorized-users-raw.json > /tmp/authorized-users.json
         
-        echo "✅ Authorized Users JSON prepared"
+        echo "âœ… Authorized Users JSON prepared"
         echo "   Entries: $(jq '. | length' /tmp/authorized-users.json)"
         
         # Output file path
@@ -285,28 +285,28 @@ runs:
       run: |
         set -euo pipefail
         
-        echo "📝 Preparing Binary Parameters JSON"
+        echo "ðŸ“ Preparing Binary Parameters JSON"
         
         # Decode and save JSON
         echo "${{ steps.prepare-entry.outputs.binary_parameters_json }}" | base64 -d > /tmp/binary-parameters-raw.json
         
         # Validate JSON structure
         if ! jq -e . /tmp/binary-parameters-raw.json >/dev/null 2>&1; then
-          echo "❌ Failed to decode Binary Parameters JSON"
+          echo "âŒ Failed to decode Binary Parameters JSON"
           exit 1
         fi
         
         # Extract .d.results array
-        echo "🔄 Extracting .d.results array"
+        echo "ðŸ”„ Extracting .d.results array"
         if ! jq -e '.d.results' /tmp/binary-parameters-raw.json >/dev/null 2>&1; then
-          echo "❌ JSON structure missing .d.results path"
+          echo "âŒ JSON structure missing .d.results path"
           echo "Expected structure: { \"d\": { \"results\": [...] } }"
           exit 1
         fi
         
         jq '.d.results' /tmp/binary-parameters-raw.json > /tmp/binary-parameters-temp.json
         
-        echo "✅ Binary Parameters JSON extracted"
+        echo "âœ… Binary Parameters JSON extracted"
         echo "   Entries: $(jq '. | length' /tmp/binary-parameters-temp.json)"
         
         # Define Binary directory path
@@ -314,15 +314,15 @@ runs:
         
         # Check if Binary directory exists
         if [[ ! -d "$BINARY_DIR" ]]; then
-          echo "⚠️ Binary directory not found: $BINARY_DIR"
+          echo "âš ï¸ Binary directory not found: $BINARY_DIR"
           echo "   Proceeding without file encoding"
           cp /tmp/binary-parameters-temp.json /tmp/binary-parameters.json
         else
-          echo "📁 Binary directory found: $BINARY_DIR"
+          echo "ðŸ“ Binary directory found: $BINARY_DIR"
           
           # Process each entry and encode files
           ENTRY_COUNT=$(jq '. | length' /tmp/binary-parameters-temp.json)
-          echo "🔄 Processing $ENTRY_COUNT binary parameter entries"
+          echo "ðŸ”„ Processing $ENTRY_COUNT binary parameter entries"
           
           # Start with empty array
           echo "[]" > /tmp/binary-parameters.json
@@ -335,7 +335,7 @@ runs:
             FILENAME=$(echo "$ENTRY" | jq -r '.Value')
             
             if [[ -z "$FILENAME" ]] || [[ "$FILENAME" == "null" ]]; then
-              echo "   [$((i+1))/$ENTRY_COUNT] ⚠️ No filename in Value field, skipping encoding"
+              echo "   [$((i+1))/$ENTRY_COUNT] âš ï¸ No filename in Value field, skipping encoding"
               # Add entry as-is
               jq --argjson entry "$ENTRY" '. += [$entry]' /tmp/binary-parameters.json > /tmp/binary-parameters-new.json
               mv /tmp/binary-parameters-new.json /tmp/binary-parameters.json
@@ -345,27 +345,27 @@ runs:
             FILE_PATH="$BINARY_DIR/$FILENAME"
             
             if [[ ! -f "$FILE_PATH" ]]; then
-              echo "   [$((i+1))/$ENTRY_COUNT] ❌ File not found: $FILE_PATH"
+              echo "   [$((i+1))/$ENTRY_COUNT] âŒ File not found: $FILE_PATH"
               exit 1
             fi
             
             # Get file info
             FILE_SIZE=$(stat -f%z "$FILE_PATH" 2>/dev/null || stat -c%s "$FILE_PATH" 2>/dev/null || echo "0")
-            echo "   [$((i+1))/$ENTRY_COUNT] 📄 Encoding file: $FILENAME (${FILE_SIZE} bytes)"
+            echo "   [$((i+1))/$ENTRY_COUNT] ðŸ“„ Encoding file: $FILENAME (${FILE_SIZE} bytes)"
             
             # Base64 encode the file
             if command -v base64 >/dev/null 2>&1; then
               FILE_BASE64=$(base64 -w 0 "$FILE_PATH" 2>/dev/null || base64 "$FILE_PATH" | tr -d '\n')
             else
-              echo "   ❌ base64 command not found"
+              echo "   âŒ base64 command not found"
               exit 1
             fi
             
             ENCODED_SIZE=${#FILE_BASE64}
-            echo "      ✅ Encoded size: $ENCODED_SIZE characters"
+            echo "      âœ… Encoded size: $ENCODED_SIZE characters"
             
             if [[ $ENCODED_SIZE -gt 260000 ]]; then
-              echo "      ⚠️ Warning: Encoded content is larger than 260KB"
+              echo "      âš ï¸ Warning: Encoded content is larger than 260KB"
             fi
             
             # Update the Value field with base64 encoded content
@@ -376,17 +376,17 @@ runs:
             mv /tmp/binary-parameters-new.json /tmp/binary-parameters.json
           done
           
-          echo "✅ All binary files encoded successfully"
+          echo "âœ… All binary files encoded successfully"
         fi
         
         # Check total size
         TOTAL_SIZE=$(stat -f%z /tmp/binary-parameters.json 2>/dev/null || stat -c%s /tmp/binary-parameters.json 2>/dev/null || echo 0)
         if [[ $TOTAL_SIZE -gt 262144 ]]; then
-          echo "⚠️ Warning: Total Binary Parameters JSON is larger than 256KB (${TOTAL_SIZE} bytes)"
+          echo "âš ï¸ Warning: Total Binary Parameters JSON is larger than 256KB (${TOTAL_SIZE} bytes)"
           echo "   Consider compressing large files as ZIP before encoding"
         fi
         
-        echo "📊 Final entries: $(jq '. | length' /tmp/binary-parameters.json)"
+        echo "ðŸ“Š Final entries: $(jq '. | length' /tmp/binary-parameters.json)"
         
         # Output file path
         echo "json_file=/tmp/binary-parameters.json" >> $GITHUB_OUTPUT
@@ -406,34 +406,34 @@ runs:
       shell: bash
       run: |
         echo "========================================"
-        echo "📊 Partner Directory Creation Summary"
+        echo "ðŸ“Š Partner Directory Creation Summary"
         echo "========================================"
         echo "Partner ID: ${{ inputs.partner-id }}"
         echo "Environment: ${{ inputs.target-env }}"
         echo "----------------------------------------"
         
         if [[ "${{ steps.create-pid-alternative-partners.outcome }}" == "success" ]]; then
-          echo "✅ Alternative Partners: Created"
+          echo "âœ… Alternative Partners: Created"
         else
-          echo "❌ Alternative Partners: Failed"
+          echo "âŒ Alternative Partners: Failed"
         fi
         
         if [[ "${{ steps.create-pid-string-parameters.outcome }}" == "success" ]]; then
-          echo "✅ String Parameters: Created"
+          echo "âœ… String Parameters: Created"
         else
-          echo "❌ String Parameters: Failed"
+          echo "âŒ String Parameters: Failed"
         fi
         
         if [[ "${{ steps.create-pid-authorized-users.outcome }}" == "success" ]]; then
-          echo "✅ Authorized Users: Created"
+          echo "âœ… Authorized Users: Created"
         else
-          echo "❌ Authorized Users: Failed"
+          echo "âŒ Authorized Users: Failed"
         fi
         
         if [[ "${{ steps.create-pid-binary-parameters.outcome }}" == "success" ]]; then
-          echo "✅ Binary Parameters: Created"
+          echo "âœ… Binary Parameters: Created"
         else
-          echo "❌ Binary Parameters: Failed"
+          echo "âŒ Binary Parameters: Failed"
         fi
         
 

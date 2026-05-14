@@ -1,5 +1,5 @@
-# Copyright (c) 2025 Mercedes-Benz AG
-# Frank Sprünken <accenture.spruenken@extaccount.com>
+﻿# Copyright (c) 2025 Mercedes-Benz AG
+# Frank SprÃ¼nken <accenture.spruenken@extaccount.com>
 #
 # Version History:
 # 1.0.0 - 2025-11-24 - Initial release (F. Spruenken)
@@ -109,7 +109,7 @@ jobs:
 
     steps:
       - name: Checkout cicd-actions-intsuite repo
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v4
         with:
           repository: ${{ inputs.git-cicd-orgrepo }}
           path: cicd-btp-insuite
@@ -117,7 +117,7 @@ jobs:
           ref: ${{ inputs.workflow-ref }}
 
       - name: Checkout repo
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v4
         with:
           ref: ${{ inputs.target-ref }}
           path: btp-insuite
@@ -125,10 +125,10 @@ jobs:
       - name: Check dir ${{ inputs.mode }}
         run: |
           if [ ! -d "btp-insuite/${{ inputs.mode }}" ]; then
-            echo "🚫 Directory btp-insuite/${{ inputs.mode }} not found. Creating it..."
+            echo "ðŸš« Directory btp-insuite/${{ inputs.mode }} not found. Creating it..."
             mkdir -p btp-insuite/${{ inputs.mode }}
           else
-            echo "✅ Directory btp-insuite/${{ inputs.mode }} found." 
+            echo "âœ… Directory btp-insuite/${{ inputs.mode }} found." 
           fi
      
       - name: Request OAuth Token

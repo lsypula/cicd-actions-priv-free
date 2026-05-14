@@ -1,5 +1,5 @@
-# Copyright (c) 2025 Mercedes-Benz AG
-# Frank Sprünken <accenture.spruenken@extaccount.com>
+﻿# Copyright (c) 2025 Mercedes-Benz AG
+# Frank SprÃ¼nken <accenture.spruenken@extaccount.com>
 #
 # Version History:
 # 1.0.0 - 2025-11-24 - Initial release (F. Spruenken)
@@ -73,13 +73,13 @@ runs:
         done
 
         if [[ ${#matches[@]} -gt 1 ]]; then
-          echo "❌ Error: Multiple directories found matching *~$PACKAGEID:"
+          echo "âŒ Error: Multiple directories found matching *~$PACKAGEID:"
           for match in "${matches[@]}"; do
             echo " - $match"
           done
           exit 1
         elif [[ ${#matches[@]} -eq 0 ]]; then
-          echo "❌ No directory found matching *~$PACKAGEID. Package not found in Repo."
+          echo "âŒ No directory found matching *~$PACKAGEID. Package not found in Repo."
           exit 1
         fi
 
@@ -88,15 +88,15 @@ runs:
         CONFIG_FILE="$dir/Configuration/ConfigParams_INTEGRATION_FLOW.json"
         CONFIG_FILE="${CONFIG_FILE//\/\//\/}"  # Remove double slashes
 
-        echo "✅ Found package directory: $dir_name"
+        echo "âœ… Found package directory: $dir_name"
         echo "Looking for configuration file: $CONFIG_FILE"
 
         if [[ ! -f "$CONFIG_FILE" ]]; then
-          echo "❌ Configuration file not found: $CONFIG_FILE"
+          echo "âŒ Configuration file not found: $CONFIG_FILE"
           exit 1
         fi
 
-        echo "✅ Found configuration file: $CONFIG_FILE"
+        echo "âœ… Found configuration file: $CONFIG_FILE"
         echo "Package ID: $PACKAGEID"
         echo "BTP API URL: $BTP_API_URL"
         echo "Target Stage: $STAGE"
@@ -114,7 +114,7 @@ runs:
         # Get artifacts safely
         artifacts_count=$(jq '.PackageIntegrationFlowParameters.Artifacts | length // 0' "$CONFIG_FILE")
         if [[ "$artifacts_count" -eq 0 ]]; then
-          echo "⚠️ No artifacts found in JSON file"
+          echo "âš ï¸ No artifacts found in JSON file"
           exit 0
         fi
 
@@ -129,7 +129,7 @@ runs:
             if [[ "$artifactID" == "$IFLOW_ID" ]]; then
               found_iflow=true
               artifactName=$(jq -r ".PackageIntegrationFlowParameters.Artifacts[$i].ArtifactName // empty" "$CONFIG_FILE")
-              echo "✅ Found target iFlow: $artifactName (ID: $artifactID)"
+              echo "âœ… Found target iFlow: $artifactName (ID: $artifactID)"
               
               echo -e "\n=== Processing Artifact: $artifactName ==="
               echo "Artifact ID: $artifactID"
@@ -149,7 +149,7 @@ runs:
                 value=$(jq -r ".PackageIntegrationFlowParameters.Artifacts[$i].Parameters[$j].ParameterValues.\"$STAGE\" // .PackageIntegrationFlowParameters.Artifacts[$i].Parameters[$j].ParameterValues.Default // empty" "$CONFIG_FILE")
                 
                 if [[ -z "$value" || "$value" == "null" ]]; then
-                  echo "⚠️ Warning: No value found for parameter $key at stage $STAGE or Default"
+                  echo "âš ï¸ Warning: No value found for parameter $key at stage $STAGE or Default"
                   ((totalEmptyValues++))
                   continue
                 fi
@@ -173,10 +173,10 @@ runs:
                   -d "$payload")
 
                 if [[ "$http_status" =~ ^2 ]]; then
-                  echo "✅ Successfully updated $key"
+                  echo "âœ… Successfully updated $key"
                   ((totalUpdated++))
                 else
-                  echo "❌ Failed to update $key (HTTP status: $http_status)"
+                  echo "âŒ Failed to update $key (HTTP status: $http_status)"
                   ((totalFailed++))
                 fi
 
@@ -187,7 +187,7 @@ runs:
           done
 
           if [[ "$found_iflow" == false ]]; then
-            echo "❌ Error: iFlow with ID '$IFLOW_ID' not found in the configuration file"
+            echo "âŒ Error: iFlow with ID '$IFLOW_ID' not found in the configuration file"
             exit 1
           fi
 
@@ -216,7 +216,7 @@ runs:
               value=$(jq -r ".PackageIntegrationFlowParameters.Artifacts[$i].Parameters[$j].ParameterValues.\"$STAGE\" // .PackageIntegrationFlowParameters.Artifacts[$i].Parameters[$j].ParameterValues.Default // empty" "$CONFIG_FILE")
               
               if [[ -z "$value" || "$value" == "null" ]]; then
-                echo "⚠️ Warning: No value found for parameter $key at stage $STAGE or Default"
+                echo "âš ï¸ Warning: No value found for parameter $key at stage $STAGE or Default"
                 ((totalEmptyValues++))
                 continue
               fi
@@ -240,10 +240,10 @@ runs:
                 -d "$payload")
 
               if [[ "$http_status" =~ ^2 ]]; then
-                echo "✅ Successfully updated $key"
+                echo "âœ… Successfully updated $key"
                 ((totalUpdated++))
               else
-                echo "❌ Failed to update $key (HTTP status: $http_status)"
+                echo "âŒ Failed to update $key (HTTP status: $http_status)"
                 ((totalFailed++))
               fi
 

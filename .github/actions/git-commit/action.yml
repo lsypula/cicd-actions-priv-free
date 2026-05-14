@@ -1,4 +1,4 @@
-# Copyright (c) 2025 Mercedes-Benz AG
+﻿# Copyright (c) 2025 Mercedes-Benz AG
 # Oliver Weng <sap.weng@extaccount.com>
 #
 # Version History:
@@ -30,7 +30,7 @@ runs:
         ACTOR="${{ github.actor }}"
         ACTOR_SHORT="${ACTOR%_*}"
         if [ "$ACTOR_SHORT" != "$ACTOR" ]; then
-          echo "ℹ️  Detected potential EMU suffix, using '$ACTOR_SHORT' instead of '$ACTOR'"
+          echo "â„¹ï¸  Detected potential EMU suffix, using '$ACTOR_SHORT' instead of '$ACTOR'"
           ACTOR="$ACTOR_SHORT"
         fi
 
@@ -48,10 +48,10 @@ runs:
           count=0
           while ! git push origin HEAD; do
             if [ $count -ge $tries ]; then
-              echo "🛑 Push failed after $tries attempts"
+              echo "ðŸ›‘ Push failed after $tries attempts"
               exit 1
             fi
-            echo "💥 Push failed, rebasing and retrying... attempt $((count+1))/$tries"
+            echo "ðŸ’¥ Push failed, rebasing and retrying... attempt $((count+1))/$tries"
             git pull --rebase origin "$(git rev-parse --abbrev-ref HEAD)"
             count=$((count + 1))
           done
@@ -61,22 +61,22 @@ runs:
           remote_branch=$(git rev-parse --abbrev-ref HEAD)
           remote="origin"
 
-          echo "🔍 Verifying remote branch is updated with commit $commit_sha ..."
+          echo "ðŸ” Verifying remote branch is updated with commit $commit_sha ..."
           for i in {1..10}; do
             git fetch $remote $remote_branch
             remote_sha=$(git rev-parse "$remote/$remote_branch")
             if [ "$remote_sha" = "$commit_sha" ]; then
-              echo "✅ Remote updated with the commit."
+              echo "âœ… Remote updated with the commit."
               break
             fi
-            echo "⏳ Waiting for remote to update... ($i/10)"
+            echo "â³ Waiting for remote to update... ($i/10)"
             sleep 2
           done
 
           if [ "$remote_sha" != "$commit_sha" ]; then
-            echo "⚠️ Warning: Remote not updated with commit after waiting. Continue..."
+            echo "âš ï¸ Warning: Remote not updated with commit after waiting. Continue..."
           fi
           
         else
-          echo "➖ No changes to commit"
+          echo "âž– No changes to commit"
         fi

@@ -1,4 +1,4 @@
-# Copyright (c) 2025 Mercedes-Benz AG
+﻿# Copyright (c) 2025 Mercedes-Benz AG
 # Oliver Weng <sap.weng@extaccount.com>
 #
 # Version History:
@@ -63,7 +63,7 @@ runs:
         # Join into comma-separated line
         paste -sd, missing_ids.txt > "$DELETE_CSV"
 
-        echo "📁 Generated DELETE_CSV from missing package IDs"
+        echo "ðŸ“ Generated DELETE_CSV from missing package IDs"
         cat "$DELETE_CSV"
         echo "delete-csv=$DELETE_CSV" >> $GITHUB_OUTPUT
        
@@ -115,7 +115,7 @@ runs:
         echo "$joined" > $UPLOAD_CSV
       
         # Debug
-        echo "📁 Generated UPLOAD_CSV (filtered)"  
+        echo "ðŸ“ Generated UPLOAD_CSV (filtered)"  
         if [[ -z "$joined" ]]; then
           echo "UPLOAD_CSV is empty. No IDs to upload."
         else

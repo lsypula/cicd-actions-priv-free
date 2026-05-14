@@ -1,4 +1,4 @@
-# Copyright (c) 2026 SAP SE or an SAP affiliate
+﻿# Copyright (c) 2026 SAP SE or an SAP affiliate
 # Licensed under the Apache License, Version 2.0
 #
 # Version History:
@@ -59,22 +59,22 @@ runs:
         GITHUB_URL="${{ github.server_url }}"
         GH_HOSTNAME=$(echo "$GITHUB_URL" | sed -e 's|^https://||' -e 's|^http://||' -e 's|/$||')
 
-        echo "════════════════════════════════════════════════════════"
-        echo "📋 MANAGE RELEASE PULL REQUEST"
-        echo "════════════════════════════════════════════════════════"
+        echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
+        echo "ðŸ“‹ MANAGE RELEASE PULL REQUEST"
+        echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
         SIMULATION="${{ inputs.simulation }}"
         if [ "$SIMULATION" == "true" ]; then
-          echo "🔬 Mode: SIMULATION"
+          echo "ðŸ”¬ Mode: SIMULATION"
         fi
-        echo "📋 Release Name: $RELEASE_NAME"
-        echo "🔀 Source: $SOURCE_BRANCH → Target: $TARGET_BRANCH"
-        echo "📝 PR Title: $PR_TITLE"
-        echo "📦 Repository: ${{ github.repository }}"
-        echo "════════════════════════════════════════════════════════"
+        echo "ðŸ“‹ Release Name: $RELEASE_NAME"
+        echo "ðŸ”€ Source: $SOURCE_BRANCH â†’ Target: $TARGET_BRANCH"
+        echo "ðŸ“ PR Title: $PR_TITLE"
+        echo "ðŸ“¦ Repository: ${{ github.repository }}"
+        echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
         echo ""
 
-        # ─── Step 1: Search for existing PR ───
-        echo "🔍 Searching for existing PR with title '$PR_TITLE'..."
+        # â”€â”€â”€ Step 1: Search for existing PR â”€â”€â”€
+        echo "ðŸ” Searching for existing PR with title '$PR_TITLE'..."
         
         # URL-encode the source branch for the API query
         ENCODED_SOURCE=$(echo "$SOURCE_BRANCH" | sed 's|/|%2F|g')
@@ -90,9 +90,9 @@ runs:
           PR_MERGED=$(echo "$existing_prs" | jq -r --arg title "$PR_TITLE" '.[] | select(.title == $title) | .merged_at' | head -1)
         fi
 
-        # ─── Step 2: Handle existing merged PR ───
+        # â”€â”€â”€ Step 2: Handle existing merged PR â”€â”€â”€
         if [ -n "$PR_NUMBER" ] && [ "$PR_NUMBER" != "null" ] && [ -n "$PR_MERGED" ] && [ "$PR_MERGED" != "null" ]; then
-          echo "✅ PR #$PR_NUMBER is already merged (merged at: $PR_MERGED)"
+          echo "âœ… PR #$PR_NUMBER is already merged (merged at: $PR_MERGED)"
           
           # Get merge commit SHA
           pr_detail=$(gh api --hostname "$GH_HOSTNAME" \
@@ -107,9 +107,9 @@ runs:
           exit 0
         fi
 
-        # ─── Step 3: Create PR if it doesn't exist ───
+        # â”€â”€â”€ Step 3: Create PR if it doesn't exist â”€â”€â”€
         if [ -z "$PR_NUMBER" ] || [ "$PR_NUMBER" == "null" ]; then
-          echo "📝 No existing PR found. Creating new PR..."
+          echo "ðŸ“ No existing PR found. Creating new PR..."
           
           create_response=$(gh api --hostname "$GH_HOSTNAME" \
             -H "Accept: application/vnd.github+json" \
@@ -123,31 +123,31 @@ runs:
             # Check if the error is "no commits between branches" (nothing to merge)
             if echo "$create_response" | grep -q "No commits between"; then
               echo ""
-              echo "ℹ️  No changes detected between '$SOURCE_BRANCH' and '$TARGET_BRANCH'."
+              echo "â„¹ï¸  No changes detected between '$SOURCE_BRANCH' and '$TARGET_BRANCH'."
               echo "   The source branch is already in sync with the target branch."
-              echo "   Nothing to merge — skipping PR creation."
+              echo "   Nothing to merge â€” skipping PR creation."
               echo ""
               echo "pr-state=no-changes" >> $GITHUB_OUTPUT
               exit 0
             fi
-            echo "❌ Failed to create PR"
+            echo "âŒ Failed to create PR"
             echo "   Response: $create_response"
             echo "pr-state=error" >> $GITHUB_OUTPUT
             exit 1
           fi
           
           PR_NUMBER=$(echo "$create_response" | jq -r '.number')
-          echo "✅ Created PR #$PR_NUMBER"
+          echo "âœ… Created PR #$PR_NUMBER"
         else
-          echo "✅ Found existing open PR #$PR_NUMBER"
+          echo "âœ… Found existing open PR #$PR_NUMBER"
         fi
 
         echo "pr-number=$PR_NUMBER" >> $GITHUB_OUTPUT
         echo "pr-url=$GITHUB_URL/${{ github.repository }}/pull/$PR_NUMBER" >> $GITHUB_OUTPUT
 
-        # ─── Step 4: Check mergeability ───
+        # â”€â”€â”€ Step 4: Check mergeability â”€â”€â”€
         echo ""
-        echo "🔍 Checking PR mergeability..."
+        echo "ðŸ” Checking PR mergeability..."
         
         # GitHub may need a moment to compute mergeability
         MAX_RETRIES=5
@@ -175,17 +175,17 @@ runs:
         echo ""
 
         if [ "$MERGEABLE" != "true" ]; then
-          echo "❌ PR #$PR_NUMBER cannot be automatically merged"
+          echo "âŒ PR #$PR_NUMBER cannot be automatically merged"
           echo ""
           echo "   The PR has merge conflicts or other issues preventing auto-merge."
           if [ "$SIMULATION" == "true" ]; then
             echo ""
-            echo "🔬 SIMULATION: Merge would FAIL due to conflicts. Closing PR..."
+            echo "ðŸ”¬ SIMULATION: Merge would FAIL due to conflicts. Closing PR..."
             gh api --hostname "$GH_HOSTNAME" \
               -H "Accept: application/vnd.github+json" \
               -X PATCH "/repos/${{ github.repository }}/pulls/$PR_NUMBER" \
               -f state="closed" > /dev/null 2>&1
-            echo "✅ PR #$PR_NUMBER closed (simulation cleanup)"
+            echo "âœ… PR #$PR_NUMBER closed (simulation cleanup)"
             echo "pr-state=simulation-conflict" >> $GITHUB_OUTPUT
             exit 1
           fi
@@ -196,22 +196,22 @@ runs:
           exit 1
         fi
 
-        # ─── Step 5: Simulation mode — close PR without merging ───
+        # â”€â”€â”€ Step 5: Simulation mode â€” close PR without merging â”€â”€â”€
         if [ "$SIMULATION" == "true" ]; then
           echo ""
-          echo "🔬 SIMULATION: Merge would SUCCEED. No actual merge performed."
-          echo "🔬 Closing PR #$PR_NUMBER (simulation cleanup)..."
+          echo "ðŸ”¬ SIMULATION: Merge would SUCCEED. No actual merge performed."
+          echo "ðŸ”¬ Closing PR #$PR_NUMBER (simulation cleanup)..."
           gh api --hostname "$GH_HOSTNAME" \
             -H "Accept: application/vnd.github+json" \
             -X PATCH "/repos/${{ github.repository }}/pulls/$PR_NUMBER" \
             -f state="closed" > /dev/null 2>&1
-          echo "✅ PR #$PR_NUMBER closed (simulation cleanup)"
+          echo "âœ… PR #$PR_NUMBER closed (simulation cleanup)"
           echo "pr-state=simulation-ok" >> $GITHUB_OUTPUT
           exit 0
         fi
 
-        # ─── Step 6: Perform squash merge ───
-        echo "🔀 Performing squash merge of PR #$PR_NUMBER..."
+        # â”€â”€â”€ Step 6: Perform squash merge â”€â”€â”€
+        echo "ðŸ”€ Performing squash merge of PR #$PR_NUMBER..."
         
         merge_response=$(gh api --hostname "$GH_HOSTNAME" \
           -H "Accept: application/vnd.github+json" \
@@ -221,7 +221,7 @@ runs:
           -f commit_message="Squash merge of ${SOURCE_BRANCH} into ${TARGET_BRANCH} for release ${RELEASE_NAME}" 2>&1)
         
         if [ $? -ne 0 ]; then
-          echo "❌ Failed to merge PR #$PR_NUMBER"
+          echo "âŒ Failed to merge PR #$PR_NUMBER"
           echo "   Response: $merge_response"
           echo "pr-state=error" >> $GITHUB_OUTPUT
           exit 1
@@ -231,14 +231,14 @@ runs:
         MERGED=$(echo "$merge_response" | jq -r '.merged')
 
         if [ "$MERGED" != "true" ]; then
-          echo "❌ Merge was not successful"
+          echo "âŒ Merge was not successful"
           echo "   Response: $merge_response"
           echo "pr-state=error" >> $GITHUB_OUTPUT
           exit 1
         fi
 
         echo ""
-        echo "✅ Successfully squash-merged PR #$PR_NUMBER"
+        echo "âœ… Successfully squash-merged PR #$PR_NUMBER"
         echo "   Merge SHA: $MERGE_SHA"
         echo "pr-state=merged" >> $GITHUB_OUTPUT
         echo "merge-sha=$MERGE_SHA" >> $GITHUB_OUTPUT

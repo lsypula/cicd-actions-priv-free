@@ -1,5 +1,5 @@
-# Copyright (c) 2025 Mercedes-Benz AG
-# Frank Sprünken <accenture.spruenken@extaccount.com>
+﻿# Copyright (c) 2025 Mercedes-Benz AG
+# Frank SprÃ¼nken <accenture.spruenken@extaccount.com>
 #
 # Version History:
 # 1.0.0 - 2025-11-24 - Initial release (F. Spruenken)
@@ -66,13 +66,13 @@ jobs:
     environment: ${{ inputs.target-env }}
 
     steps:
-      - uses: actions/checkout@v4.2.2
+      - uses: actions/checkout@v4
         with:
           ref: ${{ inputs.source-ref }}
           path: btp-insuite
 
       - name: Checkout cicd-actions-intsuite repo
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v4
         with:
           repository: ${{ inputs.git-cicd-orgrepo }}
           ref: ${{ inputs.workflow-ref }}
@@ -116,7 +116,7 @@ jobs:
 
     steps:
       - name: Checkout cicd-actions-intsuite repo
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v4
         with:
           repository: ${{ inputs.git-cicd-orgrepo }}
           ref: ${{ inputs.workflow-ref }}

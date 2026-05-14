@@ -1,4 +1,4 @@
-# Copyright (c) 2026 SAP SE or an SAP affiliate
+﻿# Copyright (c) 2026 SAP SE or an SAP affiliate
 # Licensed under the Apache License, Version 2.0
 #
 # Version History:
@@ -86,14 +86,14 @@ runs:
   using: 'composite'
   steps:
     - name: Checkout current (intsuite) repository
-      uses: actions/checkout@v4.2.2
+      uses: actions/checkout@v4
       with:
         ref: ${{ inputs.target-ref }}
         path: ${{ inputs.intsuite-repo-path }}
 
     - name: Checkout remote extension repository
       if: ${{ inputs.cx-repository != '' }}
-      uses: actions/checkout@v4.2.2
+      uses: actions/checkout@v4
       with:
         repository: ${{ inputs.cx-repository }}
         ref: ${{ inputs.cx-repository-ref }}
@@ -163,7 +163,7 @@ runs:
         echo "exclude-iflow-ids=$RESULT" >> $GITHUB_OUTPUT
 
         if [ -n "$RESULT" ]; then
-          echo "✅ Customer exit returned exclude-iflow-ids: $RESULT"
+          echo "âœ… Customer exit returned exclude-iflow-ids: $RESULT"
         else
-          echo "ℹ️  Customer exit returned no IFlow exclusions."
+          echo "â„¹ï¸  Customer exit returned no IFlow exclusions."
         fi

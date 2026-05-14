@@ -1,4 +1,4 @@
-# Copyright (c) 2025 Mercedes-Benz AG
+﻿# Copyright (c) 2025 Mercedes-Benz AG
 # Oliver Weng <sap.weng@extaccount.com>
 #
 # Version History:
@@ -96,7 +96,7 @@ jobs:
 
     steps:
       - name: Checkout cicd-actions-intsuite repo
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v4
         with:
           repository: ${{ inputs.git-cicd-orgrepo }}
           ref: ${{ inputs.workflow-ref }}
@@ -133,7 +133,7 @@ jobs:
     steps:
       - name: Checkout cicd-actions-intsuite repo
         if: ${{ matrix.id != 'EmptyMatrix' }}
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v4
         with:
           repository: ${{ inputs.git-cicd-orgrepo }}
           ref: ${{ inputs.workflow-ref }}
@@ -141,7 +141,7 @@ jobs:
           token: ${{ secrets.GIT_CICD_TOKEN }}
 
       - name: Checkout repository
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v4
         with:
           ref: ${{ inputs.source-ref }}
           path: btp-insuite
@@ -168,7 +168,7 @@ jobs:
     steps:
       - name: Checkout cicd-actions-intsuite repo
         if: ${{ matrix.id != 'EmptyMatrix' }}
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v4
         with:
           repository: ${{ inputs.git-cicd-orgrepo }}
           ref: ${{ inputs.workflow-ref }}
@@ -205,7 +205,7 @@ jobs:
     steps:
       - name: Checkout cicd-actions-intsuite repo
         if: ${{ matrix.id != 'EmptyMatrix' }}
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v4
         with:
           repository: ${{ inputs.git-cicd-orgrepo }}
           ref: ${{ inputs.workflow-ref }}
@@ -246,7 +246,7 @@ jobs:
     steps:
       - name: Checkout cicd-actions-intsuite repo
         if: ${{ matrix.id != 'EmptyMatrix' }}
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v4
         with:
           repository: ${{ inputs.git-cicd-orgrepo }}
           ref: ${{ inputs.workflow-ref }}
@@ -283,7 +283,7 @@ jobs:
     steps:
       - name: Checkout cicd-actions-intsuite repo
         if: ${{ matrix.id != 'EmptyMatrix' }}
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v4
         with:
           repository: ${{ inputs.git-cicd-orgrepo }}
           ref: ${{ inputs.workflow-ref }}
@@ -320,7 +320,7 @@ jobs:
     steps:
       - name: Checkout cicd-actions-intsuite repo
         if: ${{ matrix.id != 'EmptyMatrix' }}
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v4
         with:
           repository: ${{ inputs.git-cicd-orgrepo }}
           ref: ${{ inputs.workflow-ref }}
@@ -356,7 +356,7 @@ jobs:
     steps:
       - name: Checkout cicd-actions-intsuite repo
         if: ${{ matrix.id != 'EmptyMatrix' }}
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v4
         with:
           repository: ${{ inputs.git-cicd-orgrepo }}
           ref: ${{ inputs.workflow-ref }}

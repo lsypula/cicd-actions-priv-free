@@ -1,5 +1,5 @@
-# Copyright (c) 2025 Mercedes-Benz AG
-# Frank Sprünken <accenture.spruenken@extaccount.com>
+﻿# Copyright (c) 2025 Mercedes-Benz AG
+# Frank SprÃ¼nken <accenture.spruenken@extaccount.com>
 #
 # Version History:
 # 1.0.0 - 2025-11-24 - Initial release (F. Spruenken)
@@ -70,11 +70,11 @@ runs:
                 const mergedXmlContent = builder.buildObject(mergedXmlData);
                 fs.writeFileSync(mergedFilePath, mergedXmlContent);
 
-                console.log(`✅ Successfully created merged XML file: ${mergedFilePath}`);
+                console.log(`âœ… Successfully created merged XML file: ${mergedFilePath}`);
                 return mergedFilePath;
 
             } catch (error) {
-                console.error('❌ Error merging XML files:', error);
+                console.error('âŒ Error merging XML files:', error);
                 process.exit(1);
             }
         }
@@ -174,12 +174,12 @@ runs:
         MERGED_FILE="${MERGED_FILE%.tmp}.merged"
         
         if [ -f "$MERGED_FILE" ]; then
-          echo "✅ Merged XML file created successfully: $MERGED_FILE"
+          echo "âœ… Merged XML file created successfully: $MERGED_FILE"
           echo "File size: $(wc -c < "$MERGED_FILE") bytes"
           echo "First few lines:"
           head -10 "$MERGED_FILE"
         else
-          echo "❌ Failed to create merged XML file"
+          echo "âŒ Failed to create merged XML file"
           exit 1
         fi
 
@@ -190,52 +190,52 @@ runs:
         BASE_FILE="${TEMP_FILE%.tmp}"
         MERGED_FILE="${BASE_FILE}.merged"
         
-        echo "🧹 Starting cleanup process..."
+        echo "ðŸ§¹ Starting cleanup process..."
         
         # Step 1: Delete existing .xml file if it exists
         if [ -f "$BASE_FILE" ]; then
-          echo "🗑️  Deleting existing file: $BASE_FILE"
+          echo "ðŸ—‘ï¸  Deleting existing file: $BASE_FILE"
           rm "$BASE_FILE"
         fi
         
         # Step 2: Rename .xml.merged to .xml (remove .merged extension)
         if [ -f "$MERGED_FILE" ]; then
-          echo "📝 Renaming $MERGED_FILE to $BASE_FILE"
+          echo "ðŸ“ Renaming $MERGED_FILE to $BASE_FILE"
           mv "$MERGED_FILE" "$BASE_FILE"
         fi
         
         # Step 3: Delete the .tmp file
         if [ -f "$TEMP_FILE" ]; then
-          echo "🗑️  Deleting temporary file: $TEMP_FILE"
+          echo "ðŸ—‘ï¸  Deleting temporary file: $TEMP_FILE"
           rm "$TEMP_FILE"
         fi
         
-        echo "✅ Cleanup completed successfully!"
-        echo "📁 Final result: $BASE_FILE"
+        echo "âœ… Cleanup completed successfully!"
+        echo "ðŸ“ Final result: $BASE_FILE"
 
     - name: Cleanup node_modules
       shell: bash
       run: |
-        echo "🧹 Cleaning up temporary files and directories..."
+        echo "ðŸ§¹ Cleaning up temporary files and directories..."
         
         if [ -d "node_modules" ]; then
-          echo "🗑️  Removing node_modules directory..."
+          echo "ðŸ—‘ï¸  Removing node_modules directory..."
           rm -rf node_modules
         fi
         
         if [ -f "package-lock.json" ]; then
-          echo "🗑️  Removing package-lock.json..."
+          echo "ðŸ—‘ï¸  Removing package-lock.json..."
           rm package-lock.json
         fi
         
         if [ -f "package.json" ]; then
-          echo "🗑️  Removing package.json..."
+          echo "ðŸ—‘ï¸  Removing package.json..."
           rm package.json
         fi
         
         if [ -f "merge_xml.js" ]; then
-          echo "🗑️  Removing merge_xml.js..."
+          echo "ðŸ—‘ï¸  Removing merge_xml.js..."
           rm merge_xml.js
         fi
         
-        echo "✅ All temporary files cleaned up successfully!"
+        echo "âœ… All temporary files cleaned up successfully!"

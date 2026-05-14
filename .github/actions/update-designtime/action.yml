@@ -1,4 +1,4 @@
-# Copyright (c) 2025 Mercedes-Benz AG
+﻿# Copyright (c) 2025 Mercedes-Benz AG
 # Oliver Weng <sap.weng@extaccount.com>
 #
 # Version History:
@@ -43,7 +43,7 @@ runs:
   using: "composite"
   steps:
     - name: Checkout repository
-      uses: actions/checkout@v4.2.2
+      uses: actions/checkout@v4
       with:
         ref: ${{ inputs.source-ref }}
         path: btp-insuite

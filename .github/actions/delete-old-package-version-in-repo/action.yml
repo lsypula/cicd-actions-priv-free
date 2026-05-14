@@ -1,4 +1,4 @@
-# Copyright (c) 2025 Mercedes-Benz AG
+﻿# Copyright (c) 2025 Mercedes-Benz AG
 # Oliver Weng <sap.weng@extaccount.com>
 #
 # Version History:
@@ -47,20 +47,20 @@ runs:
 
         # Validate number of matches
         if [[ ${#matches[@]} -gt 1 ]]; then
-          echo "❌ Error: Multiple directories found matching *~$PACKAGEID:"
+          echo "âŒ Error: Multiple directories found matching *~$PACKAGEID:"
           for match in "${matches[@]}"; do
             echo " - $match"
           done
           exit 1
         elif [[ ${#matches[@]} -eq 0 ]]; then
-          echo "ℹ️ No directory found matching *~$PACKAGEID. Nothing to do."
+          echo "â„¹ï¸ No directory found matching *~$PACKAGEID. Nothing to do."
           exit 0
         fi
 
         # Proceed with processing the single matching directory
         dir="${matches[0]}"
         dir_name=$(basename "$dir")
-        echo "✅ Found only one matching directory: $dir_name"
+        echo "âœ… Found only one matching directory: $dir_name"
 
         # Delete all subdirectories except 'Configuration'
         for sub in "$dir"*/; do

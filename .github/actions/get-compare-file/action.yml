@@ -1,4 +1,4 @@
-# Copyright (c) 2025 Mercedes-Benz AG
+﻿# Copyright (c) 2025 Mercedes-Benz AG
 # Oliver Weng <sap.weng@extaccount.com>
 #
 # Version History:
@@ -33,7 +33,7 @@ runs:
   using: "composite"
   steps:
     - name: Checkout repo
-      uses: actions/checkout@v4.2.2
+      uses: actions/checkout@v4
       with:
         fetch-depth: 0
         path: btp-insuite
@@ -63,15 +63,15 @@ runs:
             return
           fi
 
-          echo "❌ Ref '$ref_name' not found in remote" >&2
+          echo "âŒ Ref '$ref_name' not found in remote" >&2
           exit 1
         }
 
         BASE_FULL_REF=$(detect_remote_ref_type "$BASE_REF")
         TARGET_FULL_REF=$(detect_remote_ref_type "$TARGET_REF")
 
-        echo "✅ Resolved base-ref: $BASE_FULL_REF"
-        echo "✅ Resolved target-ref: $TARGET_FULL_REF"
+        echo "âœ… Resolved base-ref: $BASE_FULL_REF"
+        echo "âœ… Resolved target-ref: $TARGET_FULL_REF"
 
         echo "base-full-ref=$BASE_FULL_REF" >> "$GITHUB_OUTPUT"
         echo "target-full-ref=$TARGET_FULL_REF" >> "$GITHUB_OUTPUT"
@@ -85,7 +85,7 @@ runs:
       run: |
         set -euo pipefail
 
-        echo "🔍 Comparing $BASE_FULL_REF...$TARGET_FULL_REF"
+        echo "ðŸ” Comparing $BASE_FULL_REF...$TARGET_FULL_REF"
 
         # Fetch both resolved refs into temporary local refs
         git fetch origin "$BASE_FULL_REF:refs/temp/base"

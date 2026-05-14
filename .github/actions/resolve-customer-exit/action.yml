@@ -1,4 +1,4 @@
-# Copyright (c) 2026 SAP SE or an SAP affiliate
+﻿# Copyright (c) 2026 SAP SE or an SAP affiliate
 # Licensed under the Apache License, Version 2.0
 #
 # Version History:
@@ -43,17 +43,17 @@ runs:
         INTSUITE_PATH="${{ inputs.intsuite-repo-path }}"
         EXTENSION_PATH="${{ inputs.extension-repo-path }}"
 
-        echo "════════════════════════════════════════════════════════"
-        echo "🔍 RESOLVE CUSTOMER EXIT"
-        echo "════════════════════════════════════════════════════════"
-        echo "📦 Exit Action: $EXIT_ACTION"
-        echo "🔘 CX Active:   $CX_ACTIVE"
-        echo "════════════════════════════════════════════════════════"
+        echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
+        echo "ðŸ” RESOLVE CUSTOMER EXIT"
+        echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
+        echo "ðŸ“¦ Exit Action: $EXIT_ACTION"
+        echo "ðŸ”˜ CX Active:   $CX_ACTIVE"
+        echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
 
         # Check if customer exit is active
         if [ "$CX_ACTIVE" != "true" ]; then
           echo ""
-          echo "⏭️  Customer exit '$EXIT_ACTION' is not active. Skipping."
+          echo "â­ï¸  Customer exit '$EXIT_ACTION' is not active. Skipping."
           echo "active=false" >> $GITHUB_OUTPUT
           echo "source=none" >> $GITHUB_OUTPUT
           exit 0
@@ -61,23 +61,23 @@ runs:
 
         echo "active=true" >> $GITHUB_OUTPUT
 
-        # Check intsuite (current) repository first — it takes precedence
+        # Check intsuite (current) repository first â€” it takes precedence
         INTSUITE_ACTION_PATH="$INTSUITE_PATH/.github/actions/$EXIT_ACTION/action.yml"
         EXTENSION_ACTION_PATH="$EXTENSION_PATH/.github/actions/$EXIT_ACTION/action.yml"
 
         if [ -f "$INTSUITE_ACTION_PATH" ]; then
           echo ""
-          echo "✅ Found '$EXIT_ACTION' in intsuite (current) repository"
+          echo "âœ… Found '$EXIT_ACTION' in intsuite (current) repository"
           echo "   Path: $INTSUITE_ACTION_PATH"
           echo "source=intsuite" >> $GITHUB_OUTPUT
         elif [ -n "$EXTENSION_PATH" ] && [ -f "$EXTENSION_ACTION_PATH" ]; then
           echo ""
-          echo "✅ Found '$EXIT_ACTION' in remote extension repository"
+          echo "âœ… Found '$EXIT_ACTION' in remote extension repository"
           echo "   Path: $EXTENSION_ACTION_PATH"
           echo "source=extension" >> $GITHUB_OUTPUT
         else
           echo ""
-          echo "⚠️  WARNING: Customer exit '$EXIT_ACTION' is active but action was not found in any repository."
+          echo "âš ï¸  WARNING: Customer exit '$EXIT_ACTION' is active but action was not found in any repository."
           if [ -n "$INTSUITE_PATH" ]; then
             echo "   Checked: $INTSUITE_ACTION_PATH"
           fi
@@ -88,4 +88,4 @@ runs:
         fi
 
         echo ""
-        echo "════════════════════════════════════════════════════════"
+        echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"

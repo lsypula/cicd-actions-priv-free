@@ -1,4 +1,4 @@
-# Copyright (c) 2026 SAP SE or an SAP affiliate
+﻿# Copyright (c) 2026 SAP SE or an SAP affiliate
 # Licensed under the Apache License, Version 2.0
 #
 # Version History:
@@ -47,13 +47,13 @@ runs:
         GITHUB_URL="${{ github.server_url }}"
         GH_HOSTNAME=$(echo "$GITHUB_URL" | sed -e 's|^https://||' -e 's|^http://||' -e 's|/$||')
 
-        echo "════════════════════════════════════════════════════════"
-        echo "🏷️  CREATE GITHUB RELEASE"
-        echo "════════════════════════════════════════════════════════"
-        echo "📋 Release Name: $RELEASE_NAME"
-        echo "🌿 Target Branch: $TARGET_BRANCH"
-        echo "📦 Repository: ${{ github.repository }}"
-        echo "════════════════════════════════════════════════════════"
+        echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
+        echo "ðŸ·ï¸  CREATE GITHUB RELEASE"
+        echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
+        echo "ðŸ“‹ Release Name: $RELEASE_NAME"
+        echo "ðŸŒ¿ Target Branch: $TARGET_BRANCH"
+        echo "ðŸ“¦ Repository: ${{ github.repository }}"
+        echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
         echo ""
 
         # Check if release already exists (restart case)
@@ -64,7 +64,7 @@ runs:
         if [ $? -eq 0 ]; then
           RELEASE_ID=$(echo "$existing_release" | jq -r '.id')
           RELEASE_URL=$(echo "$existing_release" | jq -r '.html_url')
-          echo "✅ Release '$RELEASE_NAME' already exists (restart scenario)"
+          echo "âœ… Release '$RELEASE_NAME' already exists (restart scenario)"
           echo "   Release URL: $RELEASE_URL"
           echo "release-id=$RELEASE_ID" >> $GITHUB_OUTPUT
           echo "release-url=$RELEASE_URL" >> $GITHUB_OUTPUT
@@ -73,7 +73,7 @@ runs:
         fi
 
         # Create the release
-        echo "🏷️  Creating release '$RELEASE_NAME' on branch '$TARGET_BRANCH'..."
+        echo "ðŸ·ï¸  Creating release '$RELEASE_NAME' on branch '$TARGET_BRANCH'..."
         
         create_response=$(gh api --hostname "$GH_HOSTNAME" \
           -H "Accept: application/vnd.github+json" \
@@ -85,7 +85,7 @@ runs:
           -F generate_release_notes=true 2>&1)
 
         if [ $? -ne 0 ]; then
-          echo "❌ Failed to create release '$RELEASE_NAME'"
+          echo "âŒ Failed to create release '$RELEASE_NAME'"
           echo "   Response: $create_response"
           echo "status=error" >> $GITHUB_OUTPUT
           exit 1
@@ -95,7 +95,7 @@ runs:
         RELEASE_URL=$(echo "$create_response" | jq -r '.html_url')
 
         echo ""
-        echo "✅ Successfully created release '$RELEASE_NAME'"
+        echo "âœ… Successfully created release '$RELEASE_NAME'"
         echo "   Release ID: $RELEASE_ID"
         echo "   Release URL: $RELEASE_URL"
         echo "release-id=$RELEASE_ID" >> $GITHUB_OUTPUT

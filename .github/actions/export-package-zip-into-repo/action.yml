@@ -1,4 +1,4 @@
-# Copyright (c) 2025 Mercedes-Benz AG
+﻿# Copyright (c) 2025 Mercedes-Benz AG
 # Oliver Weng <sap.weng@extaccount.com>
 #
 # Version History:
@@ -58,17 +58,17 @@ runs:
 
           # Try extracting into the temporary directory
           if unzip -o "$file" -d "$extract_dir" > /dev/null 2>&1; then
-            echo "✅ Extracted successfully: $extract_dir"
+            echo "âœ… Extracted successfully: $extract_dir"
 
             # Delete original ZIP file
             rm -f "$file"
-            echo "🗑️  Deleted original ZIP file: $file"
+            echo "ðŸ—‘ï¸  Deleted original ZIP file: $file"
 
             # Rename extracted folder to original file name
             mv "$extract_dir" "$file"
-            echo "📁 Renamed extracted folder to: $file"
+            echo "ðŸ“ Renamed extracted folder to: $file"
           else
-            echo "❌ Not a valid ZIP (or extraction failed): $file"
+            echo "âŒ Not a valid ZIP (or extraction failed): $file"
 
             # Cleanup failed extraction directory
             rmdir "$extract_dir" 2>/dev/null

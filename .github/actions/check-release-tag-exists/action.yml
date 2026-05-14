@@ -1,4 +1,4 @@
-# Copyright (c) 2026 SAP SE or an SAP affiliate
+﻿# Copyright (c) 2026 SAP SE or an SAP affiliate
 # Licensed under the Apache License, Version 2.0
 #
 # Version History:
@@ -39,12 +39,12 @@ runs:
         GITHUB_URL="${{ github.server_url }}"
         GH_HOSTNAME=$(echo "$GITHUB_URL" | sed -e 's|^https://||' -e 's|^http://||' -e 's|/$||')
 
-        echo "════════════════════════════════════════════════════════"
-        echo "🔍 CHECK RELEASE/TAG EXISTS"
-        echo "════════════════════════════════════════════════════════"
-        echo "📋 Release Name: $RELEASE_NAME"
-        echo "📦 Repository: ${{ github.repository }}"
-        echo "════════════════════════════════════════════════════════"
+        echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
+        echo "ðŸ” CHECK RELEASE/TAG EXISTS"
+        echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
+        echo "ðŸ“‹ Release Name: $RELEASE_NAME"
+        echo "ðŸ“¦ Repository: ${{ github.repository }}"
+        echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
         echo ""
 
         # Check if tag exists
@@ -54,9 +54,9 @@ runs:
           "/repos/${{ github.repository }}/git/refs/tags/$RELEASE_NAME" 2>&1)
         if [ $? -eq 0 ]; then
           TAG_EXISTS="true"
-          echo "⚠️  Tag '$RELEASE_NAME' already exists"
+          echo "âš ï¸  Tag '$RELEASE_NAME' already exists"
         else
-          echo "✅ Tag '$RELEASE_NAME' does not exist"
+          echo "âœ… Tag '$RELEASE_NAME' does not exist"
         fi
 
         # Check if release exists
@@ -66,9 +66,9 @@ runs:
           "/repos/${{ github.repository }}/releases/tags/$RELEASE_NAME" 2>&1)
         if [ $? -eq 0 ]; then
           RELEASE_EXISTS="true"
-          echo "⚠️  Release '$RELEASE_NAME' already exists"
+          echo "âš ï¸  Release '$RELEASE_NAME' already exists"
         else
-          echo "✅ Release '$RELEASE_NAME' does not exist"
+          echo "âœ… Release '$RELEASE_NAME' does not exist"
         fi
 
         echo ""

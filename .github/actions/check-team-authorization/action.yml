@@ -1,5 +1,5 @@
-# Copyright (c) 2025 Mercedes-Benz AG
-# Frank Sprünken <accenture.spruenken@extaccount.com>
+﻿# Copyright (c) 2025 Mercedes-Benz AG
+# Frank SprÃ¼nken <accenture.spruenken@extaccount.com>
 #
 # Version History:
 # 1.0.0 - 2025-11-24 - Initial release (F. Spruenken)
@@ -63,27 +63,27 @@ runs:
         if [ $user_check_status -ne 0 ]; then
           ACTOR_SHORT="${ACTOR%_*}"
           if [ "$ACTOR_SHORT" != "$ACTOR" ]; then
-            echo "⚠️  User '$ACTOR' not found, trying '$ACTOR_SHORT' (potential EMU suffix stripped)"
+            echo "âš ï¸  User '$ACTOR' not found, trying '$ACTOR_SHORT' (potential EMU suffix stripped)"
             user_check2=$(gh api --hostname "$GH_HOSTNAME" "/users/$ACTOR_SHORT" 2>&1)
             if [ $? -eq 0 ]; then
-              echo "✅ Resolved actor to '$ACTOR_SHORT'"
+              echo "âœ… Resolved actor to '$ACTOR_SHORT'"
               ACTOR="$ACTOR_SHORT"
             else
-              echo "⚠️  Neither '${{ github.actor }}' nor '$ACTOR_SHORT' found as users, using original"
+              echo "âš ï¸  Neither '${{ github.actor }}' nor '$ACTOR_SHORT' found as users, using original"
               ACTOR="${{ github.actor }}"
             fi
           fi
         fi
         
-        echo "════════════════════════════════════════════════════════"
-        echo "🔐 AUTHORIZATION CHECK"
-        echo "════════════════════════════════════════════════════════"
-        echo "👤 User: $ACTOR"
-        echo "🏢 Organization: $ORG"
-        echo "👥 Required Team: $TEAM_SLUG"
-        echo "📦 Repository: ${{ github.repository }}"
-        echo "🌐 GitHub URL: $GITHUB_URL"
-        echo "════════════════════════════════════════════════════════"
+        echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
+        echo "ðŸ” AUTHORIZATION CHECK"
+        echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
+        echo "ðŸ‘¤ User: $ACTOR"
+        echo "ðŸ¢ Organization: $ORG"
+        echo "ðŸ‘¥ Required Team: $TEAM_SLUG"
+        echo "ðŸ“¦ Repository: ${{ github.repository }}"
+        echo "ðŸŒ GitHub URL: $GITHUB_URL"
+        echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
         echo ""
         
         # Save outputs
@@ -92,7 +92,7 @@ runs:
         
         # Verify token is available
         if [ -z "$GH_TOKEN" ]; then
-          echo "❌ ERROR: GitHub token is not set or empty"
+          echo "âŒ ERROR: GitHub token is not set or empty"
           echo "authorized=false" >> $GITHUB_OUTPUT
           exit 1
         fi
@@ -104,13 +104,13 @@ runs:
         status=$?
         
         if [ $status -eq 0 ]; then
-          echo "✅ AUTHORIZATION SUCCESSFUL"
+          echo "âœ… AUTHORIZATION SUCCESSFUL"
           echo ""
-          echo "✓ User $ACTOR is a member of '$TEAM_SLUG'"
-          echo "✓ Access granted (via membership API)"
-          echo "⏱️  Timestamp: $(date -u +"%Y-%m-%d %H:%M:%S UTC")"
+          echo "âœ“ User $ACTOR is a member of '$TEAM_SLUG'"
+          echo "âœ“ Access granted (via membership API)"
+          echo "â±ï¸  Timestamp: $(date -u +"%Y-%m-%d %H:%M:%S UTC")"
           echo ""
-          echo "════════════════════════════════════════════════════════"
+          echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
           echo "authorized=true" >> $GITHUB_OUTPUT
           exit 0
         fi
@@ -125,28 +125,28 @@ runs:
           TEAM_MEMBERS=$(echo "$response2" | jq -r '.[].login' 2>/dev/null)
           
           if echo "$TEAM_MEMBERS" | grep -q "^${ACTOR}$"; then
-            echo "✅ AUTHORIZATION SUCCESSFUL"
+            echo "âœ… AUTHORIZATION SUCCESSFUL"
             echo ""
-            echo "✓ User $ACTOR is a member of '$TEAM_SLUG'"
-            echo "✓ Access granted (via team members list)"
-            echo "⏱️  Timestamp: $(date -u +"%Y-%m-%d %H:%M:%S UTC")"
+            echo "âœ“ User $ACTOR is a member of '$TEAM_SLUG'"
+            echo "âœ“ Access granted (via team members list)"
+            echo "â±ï¸  Timestamp: $(date -u +"%Y-%m-%d %H:%M:%S UTC")"
             echo ""
-            echo "════════════════════════════════════════════════════════"
+            echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
             echo "authorized=true" >> $GITHUB_OUTPUT
             exit 0
           fi
         fi
         
         # Authorization failed
-        echo "❌ AUTHORIZATION FAILED"
+        echo "âŒ AUTHORIZATION FAILED"
         echo ""
-        echo "✗ User $ACTOR is NOT a member of '$TEAM_SLUG'"
-        echo "✗ Access denied"
+        echo "âœ— User $ACTOR is NOT a member of '$TEAM_SLUG'"
+        echo "âœ— Access denied"
         echo ""
-        echo "📋 To gain access:"
+        echo "ðŸ“‹ To gain access:"
         echo "   1. Check team membership at: $GITHUB_URL/orgs/$ORG/teams/$TEAM_SLUG"
         echo "   2. Contact your team administrator to request access"
         echo ""
-        echo "════════════════════════════════════════════════════════"
+        echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
         echo "authorized=false" >> $GITHUB_OUTPUT
         exit 1

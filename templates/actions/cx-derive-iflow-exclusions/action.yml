@@ -1,20 +1,20 @@
-# Copyright (c) 2026 SAP SE or an SAP affiliate
+﻿# Copyright (c) 2026 SAP SE or an SAP affiliate
 # Licensed under the Apache License, Version 2.0
 #
 # Version History:
 # 1.0.0 - 2026-03-03 - Initial release
 #
-# ╔════════════════════════════════════════════════════════════════════╗
-# ║  CUSTOMER EXIT TEMPLATE - Derive IFlow Exclusions                ║
-# ║                                                                  ║
-# ║  This is a template/placeholder action. Customers should copy    ║
-# ║  this file into their intsuite repository or their extension     ║
-# ║  repository at:                                                  ║
-# ║    .github/actions/cx-derive-iflow-exclusions/action.yml         ║
-# ║                                                                  ║
-# ║  Implement custom logic to derive a comma-separated list of      ║
-# ║  IFlow IDs that should be excluded from deployment.              ║
-# ╚════════════════════════════════════════════════════════════════════╝
+# â•”â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•—
+# â•‘  CUSTOMER EXIT TEMPLATE - Derive IFlow Exclusions                â•‘
+# â•‘                                                                  â•‘
+# â•‘  This is a template/placeholder action. Customers should copy    â•‘
+# â•‘  this file into their intsuite repository or their extension     â•‘
+# â•‘  repository at:                                                  â•‘
+# â•‘    .github/actions/cx-derive-iflow-exclusions/action.yml         â•‘
+# â•‘                                                                  â•‘
+# â•‘  Implement custom logic to derive a comma-separated list of      â•‘
+# â•‘  IFlow IDs that should be excluded from deployment.              â•‘
+# â•šâ•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 #
 name: 'Customer Exit - Derive IFlow Exclusions'
 description: 'Customer exit to derive a comma-separated list of IFlow IDs to exclude from deployment. Implement your custom logic in this action.'
@@ -81,25 +81,25 @@ runs:
       id: derive
       shell: bash
       run: |
-        echo "════════════════════════════════════════════════════════"
-        echo "🔧 CUSTOMER EXIT - Derive IFlow Exclusions"
-        echo "════════════════════════════════════════════════════════"
-        echo "📍 Target Environment: ${{ inputs.target-env }}"
-        echo "🔀 Base Ref:           ${{ inputs.base-ref }}"
-        echo "🎯 Target Ref:         ${{ inputs.target-ref }}"
-        echo "════════════════════════════════════════════════════════"
+        echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
+        echo "ðŸ”§ CUSTOMER EXIT - Derive IFlow Exclusions"
+        echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
+        echo "ðŸ“ Target Environment: ${{ inputs.target-env }}"
+        echo "ðŸ”€ Base Ref:           ${{ inputs.base-ref }}"
+        echo "ðŸŽ¯ Target Ref:         ${{ inputs.target-ref }}"
+        echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
         echo ""
 
-        # ┌────────────────────────────────────────────────────────┐
-        # │ TODO: Implement your custom logic here.                │
-        # │                                                        │
-        # │ Set the output to a comma-separated list of IFlow IDs  │
-        # │ that should be excluded from deployment.               │
-        # │                                                        │
-        # │ Example:                                               │
-        # │   echo "exclude-iflow-ids=IFlow1,IFlow2" >> $GITHUB_OUTPUT │
-        # └────────────────────────────────────────────────────────┘
+        # â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+        # â”‚ TODO: Implement your custom logic here.                â”‚
+        # â”‚                                                        â”‚
+        # â”‚ Set the output to a comma-separated list of IFlow IDs  â”‚
+        # â”‚ that should be excluded from deployment.               â”‚
+        # â”‚                                                        â”‚
+        # â”‚ Example:                                               â”‚
+        # â”‚   echo "exclude-iflow-ids=IFlow1,IFlow2" >> $GITHUB_OUTPUT â”‚
+        # â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
 
         echo "exclude-iflow-ids=" >> $GITHUB_OUTPUT
-        echo "ℹ️  This is the default template. No IFlow exclusions configured."
+        echo "â„¹ï¸  This is the default template. No IFlow exclusions configured."
         echo "   Implement your custom logic to derive exclusions."

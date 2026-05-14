@@ -1,8 +1,8 @@
-# Copyright (c) 2025 Mercedes-Benz AG
-# Frank Sprünken <accenture.spruenken@extaccount.com>
+﻿# Copyright (c) 2025 Mercedes-Benz AG
+# Frank SprÃ¼nken <accenture.spruenken@extaccount.com>
 #
 # Version History:
-# 1.0.0 - 2025-11-24 - Initial release (F. Sprünken)
+# 1.0.0 - 2025-11-24 - Initial release (F. SprÃ¼nken)
 #
 name: 'download-package'
 description: 'Composite action to download package from BTP'

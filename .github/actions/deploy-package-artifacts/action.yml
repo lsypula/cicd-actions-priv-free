@@ -1,4 +1,4 @@
-# Copyright (c) 2025 Mercedes-Benz AG
+﻿# Copyright (c) 2025 Mercedes-Benz AG
 # Oliver Weng <sap.weng@extaccount.com>
 #
 # Version History:
@@ -42,7 +42,7 @@ runs:
       run: |
         if [ "$(echo "$ACTION" | tr '[:upper:]' '[:lower:]')" != "deploy" ] && \
           [ "$(echo "$ACTION" | tr '[:upper:]' '[:lower:]')" != "undeploy" ]; then
-          echo "❌ Wrong action passed ($ACTION)"
+          echo "âŒ Wrong action passed ($ACTION)"
           exit 1
         fi
 
@@ -52,12 +52,12 @@ runs:
         fi
 
         if [ ! -f "$FILE" ]; then
-          echo "❌ File $FILE not found."
+          echo "âŒ File $FILE not found."
           exit 1
         fi
 
         if ! jq empty "$FILE"; then
-          echo "❌ Invalid JSON in $FILE"
+          echo "âŒ Invalid JSON in $FILE"
           cat "$FILE"
           exit 1
         fi
@@ -88,7 +88,7 @@ runs:
           echo "Processing $id of type $type with action $ACTION${info_extra}..."
 
           if [ "$(echo "$ACTION" | tr '[:upper:]' '[:lower:]')" = "undeploy" ]; then
-            echo "♻️ Performing undeployment for $id of type $type using API $BTP_API_URL/api/v1/IntegrationRuntimeArtifacts('$id')"
+            echo "â™»ï¸ Performing undeployment for $id of type $type using API $BTP_API_URL/api/v1/IntegrationRuntimeArtifacts('$id')"
             curl_response=$(curl -s -w "\n%{http_code}" -X DELETE "$BTP_API_URL/api/v1/IntegrationRuntimeArtifacts('$id')" \
             -H "Authorization: $BEARER_TOKEN")
 
@@ -100,9 +100,9 @@ runs:
               echo "Response body: $BODY"
               exit 1
             fi
-            echo "✅ Undeployment successfully triggered for $id"
+            echo "âœ… Undeployment successfully triggered for $id"
           else
-            echo "🚀 Performing deployment for $id of type $type using API $BTP_API_URL/api/v1/Deploy${type}DesigntimeArtifact?Id='$id'&Version='active'"
+            echo "ðŸš€ Performing deployment for $id of type $type using API $BTP_API_URL/api/v1/Deploy${type}DesigntimeArtifact?Id='$id'&Version='active'"
             curl_response=$(curl -s -w "\n%{http_code}" -X POST "$BTP_API_URL/api/v1/Deploy${type}DesigntimeArtifact?Id='$id'&Version='active'" \
             -H "Authorization: $BEARER_TOKEN")
 
@@ -114,7 +114,7 @@ runs:
               echo "Response body: $BODY"
               exit 1
             fi
-            echo "✅ Deployment successfully triggered for $id"
+            echo "âœ… Deployment successfully triggered for $id"
           fi
 
           # Wait for final Deployment / Undeployment
@@ -140,7 +140,7 @@ runs:
                 exit 1
               fi
               if [ "$HTTP_STATUS" = "404" ]; then
-                echo "✅ $id undeployed."
+                echo "âœ… $id undeployed."
                 EXIT_REASON="success"
                 break
               fi
@@ -149,11 +149,11 @@ runs:
                 echo "$BODY" > body.json
                 STATUS=$(jq -r '.d.Status' body.json)
                 if [ "$STATUS" = "STARTED" ]; then
-                  echo "✅ $id STARTED."
+                  echo "âœ… $id STARTED."
                   EXIT_REASON="success"
                   break
                 elif [ "$STATUS" = "ERROR" ]; then
-                  echo "❌ $id ERROR. Continue"
+                  echo "âŒ $id ERROR. Continue"
                   EXIT_REASON="success"
                   break
                 fi
@@ -163,13 +163,13 @@ runs:
             if [ $CURRENT_WAIT -gt $MAX_WAIT ]; then
               CURRENT_WAIT=$MAX_WAIT
             fi
-            echo "⏳ Waiting for $CURRENT_WAIT second(s)... (Elapsed: $ELAPSED second(s))"
+            echo "â³ Waiting for $CURRENT_WAIT second(s)... (Elapsed: $ELAPSED second(s))"
             sleep $CURRENT_WAIT
             ELAPSED=$((ELAPSED + CURRENT_WAIT))
             WAIT=$((WAIT * 2))
           done
           if [ "$EXIT_REASON" = "timeout" ]; then
-            echo "❌ Reached maximum wait time of $MAX_TOTAL seconds for $id without success."
+            echo "âŒ Reached maximum wait time of $MAX_TOTAL seconds for $id without success."
             exit 1
           fi
         done

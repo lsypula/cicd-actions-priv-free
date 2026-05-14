@@ -1,4 +1,4 @@
-# Copyright (c) 2026 SAP SE or an SAP affiliate
+﻿# Copyright (c) 2026 SAP SE or an SAP affiliate
 # Licensed under the Apache License, Version 2.0
 #
 # Version History:
@@ -45,14 +45,14 @@ runs:
         GITHUB_URL="${{ github.server_url }}"
         GH_HOSTNAME=$(echo "$GITHUB_URL" | sed -e 's|^https://||' -e 's|^http://||' -e 's|/$||')
 
-        echo "════════════════════════════════════════════════════════"
-        echo "🔀 PREPARE TEMPORARY RELEASE BRANCH"
-        echo "════════════════════════════════════════════════════════"
-        echo "📋 Release Name: $RELEASE_NAME"
-        echo "🌿 Development Branch: $DEV_BRANCH"
-        echo "🔄 Temp Branch: $TEMP_BRANCH"
-        echo "📦 Repository: ${{ github.repository }}"
-        echo "════════════════════════════════════════════════════════"
+        echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
+        echo "ðŸ”€ PREPARE TEMPORARY RELEASE BRANCH"
+        echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
+        echo "ðŸ“‹ Release Name: $RELEASE_NAME"
+        echo "ðŸŒ¿ Development Branch: $DEV_BRANCH"
+        echo "ðŸ”„ Temp Branch: $TEMP_BRANCH"
+        echo "ðŸ“¦ Repository: ${{ github.repository }}"
+        echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
         echo ""
 
         echo "temp-branch=$TEMP_BRANCH" >> $GITHUB_OUTPUT
@@ -70,46 +70,46 @@ runs:
         temp_exists=$?
 
         if [ $dev_exists -eq 0 ] && [ $temp_exists -ne 0 ]; then
-          # Development branch exists, temp branch does not → rename (create temp from dev SHA, then delete dev)
+          # Development branch exists, temp branch does not â†’ rename (create temp from dev SHA, then delete dev)
           DEV_SHA=$(echo "$dev_ref" | jq -r '.commit.sha')
-          echo "📌 Development branch SHA: $DEV_SHA"
+          echo "ðŸ“Œ Development branch SHA: $DEV_SHA"
           echo ""
 
           # Create temp branch at the same commit as development
-          echo "🔄 Creating temp branch '$TEMP_BRANCH' from '$DEV_BRANCH' (SHA: $DEV_SHA)..."
+          echo "ðŸ”„ Creating temp branch '$TEMP_BRANCH' from '$DEV_BRANCH' (SHA: $DEV_SHA)..."
           create_response=$(gh api --hostname "$GH_HOSTNAME" \
             -H "Accept: application/vnd.github+json" \
             -X POST "/repos/${{ github.repository }}/git/refs" \
             -f ref="refs/heads/$TEMP_BRANCH" \
             -f sha="$DEV_SHA" 2>&1)
           if [ $? -ne 0 ]; then
-            echo "❌ Failed to create temp branch '$TEMP_BRANCH'"
+            echo "âŒ Failed to create temp branch '$TEMP_BRANCH'"
             echo "   Response: $create_response"
             echo "status=error" >> $GITHUB_OUTPUT
             exit 1
           fi
 
           # Delete development branch
-          echo "🗑️  Deleting development branch '$DEV_BRANCH'..."
+          echo "ðŸ—‘ï¸  Deleting development branch '$DEV_BRANCH'..."
           delete_response=$(gh api --hostname "$GH_HOSTNAME" \
             -H "Accept: application/vnd.github+json" \
             -X DELETE "/repos/${{ github.repository }}/git/refs/heads/$DEV_BRANCH" 2>&1)
           if [ $? -ne 0 ]; then
-            echo "⚠️  Warning: Failed to delete development branch '$DEV_BRANCH'"
+            echo "âš ï¸  Warning: Failed to delete development branch '$DEV_BRANCH'"
             echo "   Response: $delete_response"
             echo "   Continuing anyway as temp branch was created successfully."
           fi
 
           echo ""
-          echo "✅ Successfully renamed '$DEV_BRANCH' → '$TEMP_BRANCH'"
+          echo "âœ… Successfully renamed '$DEV_BRANCH' â†’ '$TEMP_BRANCH'"
           echo "status=created" >> $GITHUB_OUTPUT
 
         elif [ $temp_exists -eq 0 ]; then
           # Temp branch already exists (restart case)
-          echo "✅ Temp branch '$TEMP_BRANCH' already exists (restart scenario)"
+          echo "âœ… Temp branch '$TEMP_BRANCH' already exists (restart scenario)"
 
           if [ $dev_exists -eq 0 ]; then
-            echo "⚠️  Note: Development branch '$DEV_BRANCH' also still exists."
+            echo "âš ï¸  Note: Development branch '$DEV_BRANCH' also still exists."
             echo "   This may indicate a previous partial run. Continuing with existing temp branch."
           fi
 
@@ -117,7 +117,7 @@ runs:
 
         else
           # Neither branch exists - provide diagnostic info
-          echo "❌ ERROR: Neither '$DEV_BRANCH' nor '$TEMP_BRANCH' branch exists."
+          echo "âŒ ERROR: Neither '$DEV_BRANCH' nor '$TEMP_BRANCH' branch exists."
           echo "   Cannot proceed with release creation."
           echo ""
           echo "   Diagnostics:"

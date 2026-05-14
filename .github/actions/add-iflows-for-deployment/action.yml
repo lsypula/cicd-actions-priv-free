@@ -1,5 +1,5 @@
-# Copyright (c) 2025 Mercedes-Benz AG
-# Frank Sprünken <accenture.spruenken@extaccount.com>
+﻿# Copyright (c) 2025 Mercedes-Benz AG
+# Frank SprÃ¼nken <accenture.spruenken@extaccount.com>
 #
 # Version History:
 # 1.0.0 - 2025-11-24 - Initial release (F. Spruenken)
@@ -76,19 +76,19 @@ runs:
         done
         
         if [[ ${#matches[@]} -gt 1 ]]; then
-          echo "❌ Error: Multiple directories found matching *~$PACKAGEID:"
+          echo "âŒ Error: Multiple directories found matching *~$PACKAGEID:"
           for match in "${matches[@]}"; do
             echo " - $match"
           done
           exit 1
         elif [[ ${#matches[@]} -eq 0 ]]; then
-          echo "❌ No directory found matching *~$PACKAGEID. Package not found in Repo."
+          echo "âŒ No directory found matching *~$PACKAGEID. Package not found in Repo."
           exit 1
         fi
         
         dir="${matches[0]}"
         dir_name=$(basename "$dir")
-        echo "✅ Found package directory: $dir_name"
+        echo "âœ… Found package directory: $dir_name"
         
         # Set up deployment configuration file path
         DEPLOYMENT_FILE="$dir/Configuration/Deployment_INTEGRATION_FLOW.json"
@@ -96,9 +96,9 @@ runs:
         
         # Check if deployment configuration file exists
         if [[ -f "$DEPLOYMENT_FILE" ]]; then
-          echo "✅ Deployment configuration found: $DEPLOYMENT_FILE"
+          echo "âœ… Deployment configuration found: $DEPLOYMENT_FILE"
         else
-          echo "❌ Deployment configuration not found (nothing to deploy): $DEPLOYMENT_FILE"
+          echo "âŒ Deployment configuration not found (nothing to deploy): $DEPLOYMENT_FILE"
           exit 0
         fi
 
@@ -112,7 +112,7 @@ runs:
           ((.Rank // -1) | tonumber),
           .ArtifactName
         )' "$DEPLOYMENT_FILE" > "${DEPLOYMENT_FILE}.tmp" && mv "${DEPLOYMENT_FILE}.tmp" "$DEPLOYMENT_FILE"
-        echo "✅ Integration flows sorted: unranked flows first (alphabetically), then ranked flows (by Rank)"
+        echo "âœ… Integration flows sorted: unranked flows first (alphabetically), then ranked flows (by Rank)"
         
         # Display sorted list with rank details
         echo ""
@@ -167,15 +167,15 @@ runs:
           if [[ "$env_override" != "not_found" ]]; then
             # Enhanced format: Environments block override
             deploy_decision="$env_override"
-            echo "  → Environment override found: Environments.$TARGET_ENV.Deploy = $deploy_decision"
+            echo "  â†’ Environment override found: Environments.$TARGET_ENV.Deploy = $deploy_decision"
           elif [[ "$stage_value" != "not_found" ]]; then
             # Old flat format: stage-specific key (backward compatibility)
             deploy_decision="$stage_value"
-            echo "  → Stage-specific setting found (legacy): $TARGET_ENV = $deploy_decision"
+            echo "  â†’ Stage-specific setting found (legacy): $TARGET_ENV = $deploy_decision"
           else
             # Default fallback
             deploy_decision=$(echo "$iflow_entry" | jq -r '.Deploy // "false"')
-            echo "  → No $TARGET_ENV setting found, using Deploy = $deploy_decision"
+            echo "  â†’ No $TARGET_ENV setting found, using Deploy = $deploy_decision"
           fi
           
           # Resolve effective LogLevel using priority chain:
@@ -194,7 +194,7 @@ runs:
             .Environments[$env].Runtimes // .Runtimes // "iflmap"
           ')
           
-          echo "  → Effective LogLevel: $effective_loglevel, Runtimes: $effective_runtimes"
+          echo "  â†’ Effective LogLevel: $effective_loglevel, Runtimes: $effective_runtimes"
           
           # Check if this IFLOW ID is in the exclusion list
           is_excluded=false
@@ -208,10 +208,10 @@ runs:
           # Add to deployment if decision is "true" and not excluded
           if [[ "$is_excluded" == "true" ]]; then
             skip_count=$((skip_count + 1))
-            echo "  ⊘ Skipped (excluded via exclude-iflow-ids parameter)"
+            echo "  âŠ˜ Skipped (excluded via exclude-iflow-ids parameter)"
           elif [[ "$deploy_decision" == "true" ]]; then
             deploy_count=$((deploy_count + 1))
-            echo "  ✅ Adding to deployment queue"
+            echo "  âœ… Adding to deployment queue"
             
             # Check whether deploy result file exists. If not, create header
             if [ ! -f "$DEPLOY_RESULT" ]; then
@@ -238,7 +238,7 @@ runs:
             fi
           elif [[ "$deploy_decision" != "true" ]]; then
             skip_count=$((skip_count + 1))
-            echo "  ⊘ Skipped (not marked for $TARGET_ENV deployment)"
+            echo "  âŠ˜ Skipped (not marked for $TARGET_ENV deployment)"
           fi
           echo ""
           
@@ -251,7 +251,7 @@ runs:
         # Exit early if no flows are marked for deployment
         if [[ $deploy_count -eq 0 ]]; then
           echo ""
-          echo "⚠️  No Integration Flows marked for deployment in $TARGET_ENV environment."
+          echo "âš ï¸  No Integration Flows marked for deployment in $TARGET_ENV environment."
           exit 0
         fi
         
@@ -275,9 +275,9 @@ runs:
         
         # Check if file was passed
         if [[ -f "$FILE" ]]; then
-          echo "✅ File with IDs found: $FILE"
+          echo "âœ… File with IDs found: $FILE"
         else
-          echo "❌ File with IDs not found: $FILE"
+          echo "âŒ File with IDs not found: $FILE"
           exit 1
         fi
 
@@ -307,7 +307,7 @@ runs:
         undeploy_count=0
         for id in $ids; do
           undeploy_count=$((undeploy_count + 1))
-          echo "✅ Add $id to undeployment"
+          echo "âœ… Add $id to undeployment"
 
           # Get ArtifactName
           ArtifactName=$(jq -r --arg id "$id" '.d.results[] | select(.Id == $id) | .Name' "$FILE")
@@ -315,7 +315,7 @@ runs:
           # Add ID to DEPLOY_RESULT
           # Check whether file exists. If not create header and remember 
           if [ ! -f "$DEPLOY_RESULT" ]; then
-            echo "  → Creating deployment task file"
+            echo "  â†’ Creating deployment task file"
               
             jq -n \
             --arg id "$id" \
@@ -328,7 +328,7 @@ runs:
 
           else
             # Add new entry
-            echo "  → Adding to existing deployment task file"
+            echo "  â†’ Adding to existing deployment task file"
 
             jq --arg id "$id" --arg name "$ArtifactName" --arg type "$ArtifactType" --arg action "${{ inputs.mode }}" \
             '.d.deploytasks += (

@@ -1,4 +1,4 @@
-# Copyright (c) 2025 Mercedes-Benz AG
+﻿# Copyright (c) 2025 Mercedes-Benz AG
 # Oliver Weng <sap.weng@extaccount.com>
 #
 # Version History:
@@ -47,20 +47,20 @@ runs:
 
         # Validate number of matches
         if [[ ${#matches[@]} -gt 1 ]]; then
-          echo "❌ Error: Multiple directories found matching *~$PACKAGEID:"
+          echo "âŒ Error: Multiple directories found matching *~$PACKAGEID:"
           for match in "${matches[@]}"; do
             echo " - $match"
           done
           exit 1
         elif [[ ${#matches[@]} -eq 0 ]]; then
-          echo "❌ No directory found matching *~$PACKAGEID. Package not found in Repo."
+          echo "âŒ No directory found matching *~$PACKAGEID. Package not found in Repo."
           exit 1
         fi
 
         # Proceed with processing the single matching directory
         dir="${matches[0]}"
         dir_name=$(basename "$dir")
-        echo "✅ Found only one matching directory: $dir_name"
+        echo "âœ… Found only one matching directory: $dir_name"
         echo "package_dir_name=$dir_name" >> "$GITHUB_OUTPUT"
         TARGET_DIR=${{ runner.temp }}/$dir_name
         echo "Create temp directory $TARGET_DIR"
@@ -74,10 +74,10 @@ runs:
           name=$(basename "$item")
           if [ -d "$item" ]; then
             if [ "$name" == "Configuration" ]; then
-              echo "⏭️ Skipping Configuration directory"
+              echo "â­ï¸ Skipping Configuration directory"
               continue
             fi
-            echo "📦 Found Directory $name"    
+            echo "ðŸ“¦ Found Directory $name"    
             (
               cd "$item" || exit 1
               # Create a temp zip file with .zip extension first
@@ -89,16 +89,16 @@ runs:
               echo "Renamed $tmp_zip to $TARGET_DIR/$name (no .zip extension)"
             )
           elif [ -f "$item" ]; then
-            echo "📋 Copy File $name"
+            echo "ðŸ“‹ Copy File $name"
             cp "$item" "$TARGET_DIR/"
           fi
         done
 
         if [[ "${{ inputs.attach-zip }}" == "true" ]]; then
-          echo "📦 attach-zip=true → skipping final ZIP creation"
+          echo "ðŸ“¦ attach-zip=true â†’ skipping final ZIP creation"
           echo "location=$TARGET_DIR" >> "$GITHUB_OUTPUT"
         else
-          echo "📦 attach-zip=false → creating final ZIP"
+          echo "ðŸ“¦ attach-zip=false â†’ creating final ZIP"
           cd "$TARGET_DIR"
           FINAL_ZIP="${{ runner.temp }}/$dir_name.zip"
           zip "$FINAL_ZIP" ./*
@@ -109,14 +109,14 @@ runs:
       if: ${{ inputs.attach-zip == 'true' }}
       shell: bash
       run: |
-        echo "🔍 Detecting GitHub server type..."
+        echo "ðŸ” Detecting GitHub server type..."
         echo "   Server URL: ${{ github.server_url }}"
         if [[ "${{ github.server_url }}" == *"github.com"* ]] || [[ "${{ github.server_url }}" == *"ghe.com"* ]]; then
-          echo "✅ Detected: GitHub Cloud (github.com or ghe.com)"
-          echo "   → Using upload-artifact@v4"
+          echo "âœ… Detected: GitHub Cloud (github.com or ghe.com)"
+          echo "   â†’ Using upload-artifact@v4"
         else
-          echo "✅ Detected: GitHub Enterprise Server"
-          echo "   → Using upload-artifact@v3"
+          echo "âœ… Detected: GitHub Enterprise Server"
+          echo "   â†’ Using upload-artifact@v3"
         fi
 
     - name: Upload ZIP artifact (v4 - GitHub Cloud)
