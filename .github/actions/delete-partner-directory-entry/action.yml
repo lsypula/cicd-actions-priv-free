@@ -36,6 +36,13 @@ runs:
         HTTP_STATUS=$(echo "$curl_response" | tail -n1)
         BODY=$(echo "$curl_response" | sed '$d')
 
+        # 404 means the partner is not present on the target tenant, which is
+        # an acceptable outcome for a delete (e.g. restore to an empty tenant).
+        if [ "$HTTP_STATUS" = "404" ]; then
+          echo "HTTP status 404 received. Partner $PARTNERID does not exist on the tenant, nothing to delete."
+          exit 0
+        fi
+
         # Status must be 204
         if [ "$HTTP_STATUS" != "204" ]; then
           echo "Error: HTTP status $HTTP_STATUS received while deleting $PARTNERID"
